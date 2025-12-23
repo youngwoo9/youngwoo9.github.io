@@ -1,0 +1,2093 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Teaching Feedback · LLM refinement</title>
+  <style>
+:root{
+  --border: rgba(0,0,0,.10);
+  --shadow: 0 10px 26px rgba(0,0,0,.06);
+  --tgt-bg: #fff6cc;
+  --tgt-br: #f0ad4e;
+
+  --human-bg: #ffffff;
+  --human-br: #eaeaea;
+
+  --base-bg: #eef5ff;
+  --base-br: #cfe0ff;
+
+  --srfb-bg: #fffdf2;
+  --srfb-br: #f3e7b3;
+
+  --srout-bg: #e9f7e9;   /* “채워진 연초록” */
+  --srout-br: #bfe3bf;
+
+  --modelrat-bg: #f4f1ff;
+  --modelrat-br: #e2d9ff;
+}
+
+* { box-sizing: border-box; color:#000; }
+body {
+  margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: #fafafa;
+}
+header{
+  position: sticky; top:0; z-index:10;
+  background:#fff; border-bottom:1px solid var(--border);
+}
+.header-inner{
+  max-width: 1200px; margin:0 auto; padding:16px 18px;
+  display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
+}
+h1{ font-size:20px; margin:0; }
+.subtitle{ font-size:13px; opacity:.75; margin-top:4px; }
+
+.tabs{
+  display:flex; gap:8px; flex-wrap:wrap;
+}
+.tabbtn{
+  border:1px solid var(--border);
+  background:#fff; padding:8px 12px; border-radius:999px;
+  cursor:pointer; font-size:13px;
+}
+.tabbtn.active{
+  background:#111; color:#fff;
+  border-color:#111;
+}
+
+main{ max-width:1200px; margin:0 auto; padding:18px; }
+.card{
+  background:#fff; border:1px solid var(--border);
+  border-radius:16px; padding:14px 16px; margin:14px 0;
+  box-shadow: var(--shadow);
+}
+.meta{
+  display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+  margin-bottom:12px;
+}
+.badge{
+  padding:4px 10px; border:1px solid var(--border);
+  border-radius:999px; font-size:12px; background:#fff;
+}
+.mono{ font-family: ui-monospace, Menlo, Consolas, monospace; font-size:12px; opacity:.8; }
+
+.grid{
+  display:grid; grid-template-columns: 1.2fr 1fr; gap:12px;
+}
+@media (max-width: 1000px){
+  .grid{ grid-template-columns:1fr; }
+}
+
+.section{
+  border:1px solid var(--border); border-radius:14px;
+  padding:12px; background:#fff;
+}
+.hlabel{ font-weight:700; font-size:13px; margin-bottom:8px; }
+
+.ctxrow{
+  border:1px solid var(--border); border-radius:12px;
+  padding:10px 12px; margin:8px 0; background:#fff; line-height:1.6;
+}
+.ctxmeta{ font-size:12px; opacity:.75; font-family: ui-monospace, Menlo, Consolas, monospace; margin-bottom:6px; }
+.ctxrow.tgt{
+  background: var(--tgt-bg);
+  border-left:5px solid var(--tgt-br);
+  font-weight:600;
+}
+pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit; }
+
+.box-human{ background:var(--human-bg); border-color:var(--human-br); }
+.box-base { background:var(--base-bg);  border-color:var(--base-br);  }
+.box-srfb { background:var(--srfb-bg);  border-color:var(--srfb-br);  }
+.box-srout{ background:var(--srout-bg); border-color:var(--srout-br); }
+.box-modelrat{ background:var(--modelrat-bg); border-color:var(--modelrat-br); }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>Teaching Feedback</h1>
+      <div class="subtitle">LLM refinement using gpt-5-mini</div>
+    </div>
+    <div class="tabs">
+      <button class="tabbtn" data-name="baseline" onclick="showTab('baseline')">Baseline</button>
+      <button class="tabbtn" data-name="sr1" onclick="showTab('sr1')">Self-Refine #1</button>
+      <button class="tabbtn" data-name="sr2" onclick="showTab('sr2')">Self-Refine #2</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+    <div class="card" data-tab="baseline">
+      <div class="meta">
+        <span class="badge"><b>물리</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=103.0</span>
+        <span class="badge mono">2403P01-물리-합의본.csv</span>
+        <span class="badge">(1)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=101]</div>
+          <pre>(학생) 모르겠어요.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=102]</div>
+          <pre>아니 뭐가 하드야 야 야 야 얘 움직여요 안 움직여요 안 움직여요 안 움직이면 운동 에너지가 없다니까 왜 운동 에너지는 움직이는 애들을 만 가지는 에너지니까 </pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=103]</div>
+          <pre>베리 하드 하지 말고 네가 이해할 생각이 없잖아.지금 위치 에너지는 최대가 되겠죠 왜 가장 높으니까 그럼 아래로 내려왔을 때는 1번 2번 1번이 위치 에너지고요.2번이 운동 에너지예요. 과연 뭐가 0일까요?그래 위치 에너지가 0이에요.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=104]</div>
+          <pre>운동 에너지는 최대 그러면은 창민 만회할 기회가 있어 만회할 기회 선생님 이거 식으로 나타내볼게요.위치 에너지 여기서 100이라고 치고요. 운동 에너지는 0이라고 합시다.창민 역학적 에너지 얼마 까요? 1번 위치에서요.역학적 에너지</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=105]</div>
+          <pre>(학생) 이 맞췄어요? 맞췄어.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>각 위치별 에너지의 크기에 대해 자문자답을 통해 설명합니다. 학생의 어려움에 대해 원인을 파악하거나 공감하지 않고 똑같은 설명을 반복하기 보다는 다양한 방법을 통해 설명하는 것이 좋습니다.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>천천히 생각해보자, 괜찮아. 지금 맨 위에서는 위치에너지가 최대야, 높이가 가장 크니까. 아래로 내려왔을 때 1번 지점에서는 위치에너지도 있고 운동에너지도 생기고, 2번(맨 아래) 지점에서는 위치에너지가 가장 작고 운동에너지가 가장 커. 만약 바닥을 위치에너지 0으로 잡으면 2번에서 위치에너지가 0인 거야.</pre>
+      </div>
+    
+          <div class="section box-modelrat">
+            <div class="hlabel">model rationale</div>
+            <pre>학생을 비난하지 않고 단계적으로 위치에너지와 운동에너지의 분포와 기준(0점)을 명확히 설명해 오해를 줄이고 이해를 돕기 위해.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="baseline">
+      <div class="meta">
+        <span class="badge"><b>물리</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=96.0</span>
+        <span class="badge mono">2405P03-물리-합의본.csv</span>
+        <span class="badge">(2)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=94]</div>
+          <pre>그러면 볼록 렌즈랑 오목렌즈랑, 아니 오목거울이랑 상의 특징이 똑같네.
+볼록 거울은 어떻게 가까운 거 어떻게 보여? 작게 보여요. 볼록 거울 가까운 거 어떻게 보여? 작게 보이죠 먼 거 어떻게 보여? 작게 보이죠 오목거울이랑 볼록거울이랑 반대네.
+상의 특징이. 오목 렌즈 가까이 있는 거 어떻게 보여요?
+작게 멀리 있는 것도 작게</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=95]</div>
+          <pre>그러면 돋보기 알지? 돋보기 돋보기는 무슨 렌즈야?
+그렇지 돋보기가 볼록 렌즈인 건 알지? 돋보기는 볼록 렌즈야.
+근데 우리 돋보기로 그거 검은 색깔 종이 태운 거 해본 적 있어?
+해본 적 있지? 그럼 빛을 어떻게 해주는 거야? 맞아요.
+돋보이는 빛을 보여주고, 돋보기는 크게 보이는 거잖아.
+돋보기는 크게 보이는 거잖아. 멀리 하면 거꾸로 보이잖아.
+이거를 알고 있으니까, 요거에서 볼록 거울 그럼 볼록 렌즈랑 반대였어 오목 거울 볼록 렌즈랑 똑같았어.
+난 이렇게 외웠어.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=96]</div>
+          <pre>이거는 지금 너네 보라고 이거 써준 거고, 이거를 머릿속에 넣으면 그냥 저절로 외워지던데 나는 이렇게 외웠어.
+너네가 더 좋은 방법으로 외울 수도 있겠지. </pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=97]</div>
+          <pre>근데 오목 렌즈랑 볼록 볼록 거울이랑 똑같고 볼록 거울이랑 오목거울이랑 반대고 오목거울이랑 볼록 렌즈랑 똑같으니까 이 관계를 외워서 나는 하나만 외웠어.
+하나만 외우면 나머지 4개가 다 외워지는 거잖아.
+이해됐어? 그러니까 하나만 외우라는 거야. 돋보기가 이런 특징을 가진 거 알잖아 그럼 하나도 외울 필요가 없지 과학은 앞글자 따서 외우는 것보다 이런 식으로 연관지어서 관련 지어서 얘네들의 특성을 외우는 게 더 좋은 것 같아.
+난 무작정 외우라고 하고 싶지 않아.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=98]</div>
+          <pre>이해되니? 혹시 이해 안 되면 쌤한테 따로 찾아와 다시 물어봐.
+나 같으면 이거 적어 두겠다. 적어 놨지? 공부 잘하는 사람이면 다 적었을 거여.
+나 같으면 외우기 힘드니까 이거 적어놨다.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>오목거울, 볼록거울, 오목렌즈, 볼록 렌즈 등 각 상황에 따른 상을 암기해야 함을 강조합니다.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>이건 너네 보라고 정리해 둔 그림이고, 머릿속에 한 번 그림으로 넣어두면 더 잘 외워져. 나는 돋보기(볼록 렌즈) 하나만 기준으로 외워두고, 오목거울은 볼록렌즈와 같고 볼록거울·오목렌즈는 반대라는 관계로 나머지를 바로 알았어. 너희도 더 좋은 방법 있으면 그렇게 해봐.</pre>
+      </div>
+    
+          <div class="section box-modelrat">
+            <div class="hlabel">model rationale</div>
+            <pre>구체적인 기준(돋보기=볼록렌즈)을 제시하고 '같음/반대' 관계로 연관지어 외우는 전략을 알려 학생들의 이해와 기억을 돕기 위해 바꿨다.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="baseline">
+      <div class="meta">
+        <span class="badge"><b>생물</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=60.0</span>
+        <span class="badge mono">2404B01-생물-합의본.csv</span>
+        <span class="badge">(3)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=58]</div>
+          <pre>이걸 순종의 둥근완두라고 부릅니다. 순종의 둥근완두라고 불러요.
+이번에는 마찬가지로 주름진 완두가 이렇게 있었어.
+이 주름진 완두를 심어요. 마찬가지로 완두니까 숯꽃과 암꽃이 나오겠죠.
+꽃의 꽃가루를 암꽃에다가 묻혀줘요. 수정을 시켜주는 거지.
+그런 다음에 얘가 또 자손을 얻어. 주름진 완두가 나왔겠지.
+수대에 걸쳐서 이 작업을 반복했는데도 계속 주름진 완두가 나와.
+그럼 얘는 뭐야? 얘는 순종의 주름진 완두가 있는 거야.
+순종 순종의 둥근 완두와 순종의 주름진 완두를 이렇게 색을 통해서 만들어냈습니다.
+그게 연구의 첫 번째 단계였어. 순종의 둥근 완두, 순종의 주름진 완두 이게 연구의 첫 번째</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=59]</div>
+          <pre>그다음에 그다음에 봐봐. 아까도 순종의 둥근완두하고 순종의 주름진완두를 이제 교배를 해볼 거야.
+얘가 순종 얘도 순종이지 순종. 그러면 나오는 나오는 녀석은 우리가 순종이라고 부를까 잡종이라고 부를까?
+잡종이라고 부르겠지. 순종과 순종을 교배해서 나온 건 잡종이야.
+그런데 여기서 이 잡종 제1대에서, 잡종 제1대에서 나온 완두콩의 모양이 동그란 둥근 완두였어.
+순종의 둥근 완두와 순종의 주름진 완두를 교배했더니 나온 완두콩이 둥근 완두가 나왔어.
+실험의 결과야.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=60]</div>
+          <pre>그러니까 둥근 완두가 주름진 완두를 이긴 거지. 더 우성이다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=61]</div>
+          <pre>예를 들어 OO이랑 나랑 둘이 손잡고 중국집에 갔어. 내가 밥을 사주기로 했어. OO이 밥을 사주기로 해서 OO이랑 나랑 중국집에 갔어. 그런데 중국집 가면 메뉴를 어떻게 해야 빨리 나와? 빨리 메뉴를 통일해야 빨리 나오지. 주방장 아저씨가 만들 거 아니야 한 번에 만들어야 되니까 너 뭐 먹고 싶어?난 짜장면이 먹고 싶어. 우린 둘이 가면 뭘 시켰을까? 짜장면 시켰겠지 왜? 선생님이 사기로 했으니까 내가 더 힘이 센 거잖아. 선생님이 사기로 한 거니까.. 그치? 아니야. 그러니까 여기서도 보자.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=62]</div>
+          <pre>순종의 동근 완두하고 순종의 주름진 완두가 있을 거야.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>둥근완두가 주름진 완두를 이겼다는 표현은 오개념을 형성할수 있음</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>그러니까 둥근 형질이 주름진 형질보다 우성이라는 거야. 그래서 잡종에서는 둥근 모습이 나타난 거지.</pre>
+      </div>
+    
+          <div class="section box-modelrat">
+            <div class="hlabel">model rationale</div>
+            <pre>‘이겼다’ 같은 표현 대신 우성 개념과 잡종에서 우성 형질이 나타나는 원리를 간결하고 정확하게 설명하기 위해.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="baseline">
+      <div class="meta">
+        <span class="badge"><b>생물</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=68.0</span>
+        <span class="badge mono">2404B01-생물-합의본.csv</span>
+        <span class="badge">(4)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=66]</div>
+          <pre>그런데 잡종 1대에서는 동시 표현 안 된다고 했어.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=67]</div>
+          <pre>대립 형질들이니까 잡종 1대에서는 둥근 것만 표현이 됐지 둥근 것만 표현이 돼버렸지 그치 누가 더 강력한 거야?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=68]</div>
+          <pre>둥근 게 더 강력한 거지. 이렇게 잡종 1대에서 표현되는 형질, 잡종 1대에서 표현되는 형질을 우성이라고 불러.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=69]</div>
+          <pre>잡종 일대에서 표현되지 않는 형질을 열성이라고 불러.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=70]</div>
+          <pre>잡종 일대에 표현되는 형질이 우성. 잡종일 때 표현되지 않는 형질이 열성. 좋다 나쁘다의 개념은 없어. </pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>강력한것이 우성이라는 오개념이 형성될수 있음</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>둥근 게 우성인 거야. 잡종 1대에서 표현되는 형질을 '우성'이라고 불러.</pre>
+      </div>
+    
+          <div class="section box-modelrat">
+            <div class="hlabel">model rationale</div>
+            <pre>'강력한'이라는 표현은 오해를 낳을 수 있으니 우성의 의미를 '잡종 1대에서 표현되는 형질'로 명확히 해 학생 이해를 돕기 위해.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="baseline">
+      <div class="meta">
+        <span class="badge"><b>지구과학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=185.0</span>
+        <span class="badge mono">2401E01-지구과학-합의본.csv</span>
+        <span class="badge">(5)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=183]</div>
+          <pre>그럼 예를 들어서 별 x의 시차가 여기부터 여기까지의 시차가 0.1초였대.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=184]</div>
+          <pre>별 x까지의 거리는 얼마일까요? 다시 별 x1에서 x2까지 별 x1의 시차가 0.1초래. 여기부터 여기까지는 별x의 시차 맞지?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=185]</div>
+          <pre>그러면 이 시차가 0.1초라는 건 연주 시차는 몇 초라는 소리야? 반이니까 0.01초가 되겠죠.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=186]</div>
+          <pre>그러면 우리는 거리는 연주 시차 분의 1이지 0.01 분의 1은 몇이에요?
+100pc이 되겠지. 이렇게 구하셔야 돼요. </pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=187]</div>
+          <pre>그럼 이 개념 똑같이 이용해서 옆에 있는 문제 한번 풀어봐.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>설명 오류 - 시차 0.1의 절반에 해당하는 연주시차는 0.05라고 설명해야 옳은 설명임.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>그러면 이 시차가 0.1초라는 건 연주시차는 몇 초라는 소리야? 반이니까 0.05초가 되겠죠.</pre>
+      </div>
+    
+          <div class="section box-modelrat">
+            <div class="hlabel">model rationale</div>
+            <pre>두 위치 사이의 전체 이동량의 반이 연주시차이므로 용어를 바로잡고 0.1을 반으로 나눈 0.05초로 계산을 정정했습니다.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="baseline">
+      <div class="meta">
+        <span class="badge"><b>지구과학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=36.0</span>
+        <span class="badge mono">2410E01-지구과학-합의본.csv</span>
+        <span class="badge">(6)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=34]</div>
+          <pre>바람의 혼합 작용에 의해서 더 두꺼워진다. (참석자 4)</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=35]</div>
+          <pre>그치 얘들아 그리고 봐봐 설명해보자라고 되어 있지.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=36]</div>
+          <pre>설명해보자는 뭐야 설명을 하라는 거잖아. 단답형으로 말하는 게 아니라 일단 너 답도 틀렸어.
+뭘 억울한 척해</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=37]</div>
+          <pre>그치 얕아진다라는 내용은 혼합층의 두께가 줄어든다는 거잖아.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=38]</div>
+          <pre>바람이 세게 불어 바람이 세게 불면 혼합 작용이 어떻게 돼?</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>다소 과격한 표현을 활용함.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>설명해보라는 건 단답으로 끝내라는 말이 아니야, 왜 그렇게 생각했는지 차근차근 설명해봐.</pre>
+      </div>
+    
+          <div class="section box-modelrat">
+            <div class="hlabel">model rationale</div>
+            <pre>학생의 생각을 존중하면서 이유 설명을 유도해 오개념을 바로잡고 참여를 촉진하려고 표현을 부드럽고 안내적으로 바꿨음.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="baseline">
+      <div class="meta">
+        <span class="badge"><b>화학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=52.0</span>
+        <span class="badge mono">2402C01-화학-합의본.csv</span>
+        <span class="badge">(7)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=50]</div>
+          <pre>아까 얘기했던 잠깐 얘기 나왔던 금. 금중에서도 어떤 금? 순금이라고 부르는 거 순수하게 금으로만 돼 있다는 뜻이고 또 뭐 있을까?</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=51]</div>
+          <pre>구리? 어디 들어 있는 구리? 전선 안에 들어 있는 구리. 원소 하나로 되어 있는 금속 구리도 순물질이고, 선생님이마시는 거 뭐지?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=52]</div>
+          <pre>물. 물 여기에 아무것도 타지 않은 순수한 생수거든요.
+그럼 얘도 순수한 물만 있으니까 얘도 뭐일 거다? 순물질이다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=53]</div>
+          <pre>그래서 우리 주변에 있는 물질을 순물질과 혼합물로 나누기도 전에 이 이미 잘 알고 있지만 좀 체계적으로 한번 정리해 보도록 하겠습니다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=54]</div>
+          <pre>아주 잘했어요. 이미 사전 지식이 풍부해서 잘 할 수 있을 것 같아.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>생수의 경우 무기질이 섞여 있기 떄문에 순물질 예시로 옳지 않음. 물을 순물질로 설명하려면 증류수를 예로 들어야함.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>물. 여기에 아무것도 섞이지 않은 순수한 물(H2O)이에요. 한 종류의 성분으로만 이루어져 있으면 무엇이라고 부를까요? 순물질이라고 부릅니다.</pre>
+      </div>
+    
+          <div class="section box-modelrat">
+            <div class="hlabel">model rationale</div>
+            <pre>구체적 예(H2O)와 '한 종류의 성분'이라는 기준을 간단히 제시해 개념을 정확히 전달하고 학생의 사고를 유도하기 위해 바꿨습니다.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="baseline">
+      <div class="meta">
+        <span class="badge"><b>화학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=190.0</span>
+        <span class="badge mono">2412C01-화학-합의본.csv</span>
+        <span class="badge">(8)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=188]</div>
+          <pre>근데 스프 넣으면 100도 이상으로 올라가니까 면이 충분히 삼키는 겁니다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=189]</div>
+          <pre>이해되시죠? 얘는 어는 점입니다.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=190]</div>
+          <pre>반대입니다. 너희 물분자예요. 샘 이제 반대로 너희한테서 열을 뺏어올 거야.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=191]</div>
+          <pre>그러면은 온도가 어떻게 돼? 쭉쭉 떨어지겠지 맞나?</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=192]</div>
+          <pre>그럼 너희가 어떻게 할까? 싫겠지만 추워지면 어떻게 하고 싶은데 모이고 싶겠지 그렇게 하기 싫겠지만 모입니다.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>학생이 물 분자라는 상황을 가정하여 과학 개념을 설명함. 교사는 소금을 가정하고 있으므로 열을 빼앗는 대상이 아님.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>반대로 해볼게. 너희는 물분자야, 샘이 이제 너희로부터 열(에너지)을 빼앗아 갈 거야.</pre>
+      </div>
+    
+          <div class="section box-modelrat">
+            <div class="hlabel">model rationale</div>
+            <pre>역할극을 유지하면서 '열이 이동해 에너지가 빠져나간다'는 개념을 분명히 해 다음 질문들(온도 하강·분자 행동)로 자연스럽게 이어지도록 표현을 정리했습니다.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr1">
+      <div class="meta">
+        <span class="badge"><b>물리</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=103.0</span>
+        <span class="badge mono">2403P01-물리-합의본.csv</span>
+        <span class="badge">(1)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=101]</div>
+          <pre>(학생) 모르겠어요.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=102]</div>
+          <pre>아니 뭐가 하드야 야 야 야 얘 움직여요 안 움직여요 안 움직여요 안 움직이면 운동 에너지가 없다니까 왜 운동 에너지는 움직이는 애들을 만 가지는 에너지니까 </pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=103]</div>
+          <pre>베리 하드 하지 말고 네가 이해할 생각이 없잖아.지금 위치 에너지는 최대가 되겠죠 왜 가장 높으니까 그럼 아래로 내려왔을 때는 1번 2번 1번이 위치 에너지고요.2번이 운동 에너지예요. 과연 뭐가 0일까요?그래 위치 에너지가 0이에요.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=104]</div>
+          <pre>운동 에너지는 최대 그러면은 창민 만회할 기회가 있어 만회할 기회 선생님 이거 식으로 나타내볼게요.위치 에너지 여기서 100이라고 치고요. 운동 에너지는 0이라고 합시다.창민 역학적 에너지 얼마 까요? 1번 위치에서요.역학적 에너지</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=105]</div>
+          <pre>(학생) 이 맞췄어요? 맞췄어.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>각 위치별 에너지의 크기에 대해 자문자답을 통해 설명합니다. 학생의 어려움에 대해 원인을 파악하거나 공감하지 않고 똑같은 설명을 반복하기 보다는 다양한 방법을 통해 설명하는 것이 좋습니다.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>천천히 생각해보자, 괜찮아. 지금 맨 위에서는 위치에너지가 최대야, 높이가 가장 크니까. 아래로 내려왔을 때 1번 지점에서는 위치에너지도 있고 운동에너지도 생기고, 2번(맨 아래) 지점에서는 위치에너지가 가장 작고 운동에너지가 가장 커. 만약 바닥을 위치에너지 0으로 잡으면 2번에서 위치에너지가 0인 거야.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+‘위치 에너지는 최대다’라는 일반 진술은 상황에 따라 맞을 수 있으나, 발화에서 위치·운동 에너지를 어떤 기준으로 어느 위치에 대응시키는지가 불명확합니다. 특히 '1번 2번 1번이 위치 에너지'처럼 숫자 배치가 혼란스럽고 오류로 보이며, '위치 에너지가 0이에요.'라고 단정했으나 참조점(기준 높이)을 설명하지 않아 학생들이 위치에너지의 상대성을 오해할 수 있습니다.
+
+---
+
+교육적 효과성
+설명이 근거 제시 없이 단정적으로 진행되어 학생이 왜 그런 결론에 도달했는지 이해하기 어렵습니다. 질문을 던진 뒤 즉시 정답을 제시해 학생의 사고를 유도하거나 이해도를 확인할 기회를 제공하지 않습니다.
+
+---
+
+상호작용 / 참여
+학생 발화에 대해 비난조로 응답하고 여지를 주지 않아 참여 의욕을 떨어뜨립니다. 불명확한 지시(번호의 혼선)와 빠른 결론 제시로 학생이 자신의 생각을 말하거나 오류를 수정할 기회를 잃게 됩니다.
+
+---
+
+어조 / 적절성
+‘네가 이해할 생각이 없잖아’, ‘베리 하드 하지 말고’ 등 표현이 비난적이고 조롱으로 들릴 여지가 있어 교실 분위기와 학생의 자존감에 부정적 영향을 줄 수 있습니다. 전반적으로 단정적·공격적인 어조가 개선이 필요합니다.
+
+---
+
+종합
+개념 설명의 불명확성(번호 오류, 기준점 미설정)과 단정적·비난적인 전달 방식이 결합되어 학생의 이해와 참여를 저해하고 오해를 초래할 위험이 큽니다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>자, 차근차근 정리해보자 — 지금 그림에서 1번이 가장 높으니 1번에서 위치에너지가 가장 크고 아래(2번)로 내려오면 위치에너지는 줄고 운동에너지가 커져요; 위치에너지는 '참조점'을 어디로 잡느냐에 따라 달라지니, 여기서는 바닥을 0으로 잡으면 어느 지점에서 위치에너지가 0일까?</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr1">
+      <div class="meta">
+        <span class="badge"><b>물리</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=96.0</span>
+        <span class="badge mono">2405P03-물리-합의본.csv</span>
+        <span class="badge">(2)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=94]</div>
+          <pre>그러면 볼록 렌즈랑 오목렌즈랑, 아니 오목거울이랑 상의 특징이 똑같네.
+볼록 거울은 어떻게 가까운 거 어떻게 보여? 작게 보여요. 볼록 거울 가까운 거 어떻게 보여? 작게 보이죠 먼 거 어떻게 보여? 작게 보이죠 오목거울이랑 볼록거울이랑 반대네.
+상의 특징이. 오목 렌즈 가까이 있는 거 어떻게 보여요?
+작게 멀리 있는 것도 작게</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=95]</div>
+          <pre>그러면 돋보기 알지? 돋보기 돋보기는 무슨 렌즈야?
+그렇지 돋보기가 볼록 렌즈인 건 알지? 돋보기는 볼록 렌즈야.
+근데 우리 돋보기로 그거 검은 색깔 종이 태운 거 해본 적 있어?
+해본 적 있지? 그럼 빛을 어떻게 해주는 거야? 맞아요.
+돋보이는 빛을 보여주고, 돋보기는 크게 보이는 거잖아.
+돋보기는 크게 보이는 거잖아. 멀리 하면 거꾸로 보이잖아.
+이거를 알고 있으니까, 요거에서 볼록 거울 그럼 볼록 렌즈랑 반대였어 오목 거울 볼록 렌즈랑 똑같았어.
+난 이렇게 외웠어.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=96]</div>
+          <pre>이거는 지금 너네 보라고 이거 써준 거고, 이거를 머릿속에 넣으면 그냥 저절로 외워지던데 나는 이렇게 외웠어.
+너네가 더 좋은 방법으로 외울 수도 있겠지. </pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=97]</div>
+          <pre>근데 오목 렌즈랑 볼록 볼록 거울이랑 똑같고 볼록 거울이랑 오목거울이랑 반대고 오목거울이랑 볼록 렌즈랑 똑같으니까 이 관계를 외워서 나는 하나만 외웠어.
+하나만 외우면 나머지 4개가 다 외워지는 거잖아.
+이해됐어? 그러니까 하나만 외우라는 거야. 돋보기가 이런 특징을 가진 거 알잖아 그럼 하나도 외울 필요가 없지 과학은 앞글자 따서 외우는 것보다 이런 식으로 연관지어서 관련 지어서 얘네들의 특성을 외우는 게 더 좋은 것 같아.
+난 무작정 외우라고 하고 싶지 않아.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=98]</div>
+          <pre>이해되니? 혹시 이해 안 되면 쌤한테 따로 찾아와 다시 물어봐.
+나 같으면 이거 적어 두겠다. 적어 놨지? 공부 잘하는 사람이면 다 적었을 거여.
+나 같으면 외우기 힘드니까 이거 적어놨다.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>오목거울, 볼록거울, 오목렌즈, 볼록 렌즈 등 각 상황에 따른 상을 암기해야 함을 강조합니다.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>이건 너네 보라고 정리해 둔 그림이고, 머릿속에 한 번 그림으로 넣어두면 더 잘 외워져. 나는 돋보기(볼록 렌즈) 하나만 기준으로 외워두고, 오목거울은 볼록렌즈와 같고 볼록거울·오목렌즈는 반대라는 관계로 나머지를 바로 알았어. 너희도 더 좋은 방법 있으면 그렇게 해봐.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+직접적인 물리 개념 오류를 담고 있지는 않지만 '이거를 머릿속에 넣으면 그냥 저절로 외워진다'는 표현은 학습 과정과 개념 이해를 과소평가하여 암기만으로 충분하다는 잘못된 인상을 줄 수 있어 학생들이 표면적 암기에 의존하게 만들 위험이 있다.
+
+---
+
+교육적 효과성
+교사의 개인적 암기법만 제시하고 개념적 근거나 이유를 충분히 설명하지 않아 심층적 이해를 촉진하지 못한다. 이해 여부를 확인하거나 보완할 활동·피드백을 제공하지 않아 학습 효과가 제한된다.
+
+---
+
+상호작용 / 참여
+학생 참여를 유도하는 질문이나 토론이 없이 일방적으로 전달되는 형태여서 학생들의 적극적 사고·질의 유발이 부족하다. '너네가 더 좋은 방법으로 외울 수도 있겠지'라는 말만으로는 학생 주도의 탐구나 다양한 의견 표출을 활성화하기 어렵다.
+
+---
+
+어조 / 적절성
+친근한 어조이긴 하나 다소 단정적이고 개인 경험 중심으로 들려, 다른 학습 방식을 쓰는 학생들을 경시하는 인상을 줄 수 있다. 특정 방법을 일반화하는 듯한 표현은 일부 학생에게 부담이나 소외감을 줄 수 있다.
+
+---
+
+종합
+개념 자체의 중대한 오류는 없으나 암기 중심 권유와 이해 확인의 부재로 교육적 효과와 학생 참여를 저해하는 발화이다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>이건 너희 보라고 정리해 둔 건데, 단순 암기보다 '왜 그런지'를 그림이나 사례로 연결해 이해하면 더 오래 남아; 나는 이렇게 정리했지만 너희는 그림 그려보거나 간단한 실험으로 자기 방식으로 해보고 궁금하면 물어봐.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr1">
+      <div class="meta">
+        <span class="badge"><b>생물</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=60.0</span>
+        <span class="badge mono">2404B01-생물-합의본.csv</span>
+        <span class="badge">(3)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=58]</div>
+          <pre>이걸 순종의 둥근완두라고 부릅니다. 순종의 둥근완두라고 불러요.
+이번에는 마찬가지로 주름진 완두가 이렇게 있었어.
+이 주름진 완두를 심어요. 마찬가지로 완두니까 숯꽃과 암꽃이 나오겠죠.
+꽃의 꽃가루를 암꽃에다가 묻혀줘요. 수정을 시켜주는 거지.
+그런 다음에 얘가 또 자손을 얻어. 주름진 완두가 나왔겠지.
+수대에 걸쳐서 이 작업을 반복했는데도 계속 주름진 완두가 나와.
+그럼 얘는 뭐야? 얘는 순종의 주름진 완두가 있는 거야.
+순종 순종의 둥근 완두와 순종의 주름진 완두를 이렇게 색을 통해서 만들어냈습니다.
+그게 연구의 첫 번째 단계였어. 순종의 둥근 완두, 순종의 주름진 완두 이게 연구의 첫 번째</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=59]</div>
+          <pre>그다음에 그다음에 봐봐. 아까도 순종의 둥근완두하고 순종의 주름진완두를 이제 교배를 해볼 거야.
+얘가 순종 얘도 순종이지 순종. 그러면 나오는 나오는 녀석은 우리가 순종이라고 부를까 잡종이라고 부를까?
+잡종이라고 부르겠지. 순종과 순종을 교배해서 나온 건 잡종이야.
+그런데 여기서 이 잡종 제1대에서, 잡종 제1대에서 나온 완두콩의 모양이 동그란 둥근 완두였어.
+순종의 둥근 완두와 순종의 주름진 완두를 교배했더니 나온 완두콩이 둥근 완두가 나왔어.
+실험의 결과야.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=60]</div>
+          <pre>그러니까 둥근 완두가 주름진 완두를 이긴 거지. 더 우성이다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=61]</div>
+          <pre>예를 들어 OO이랑 나랑 둘이 손잡고 중국집에 갔어. 내가 밥을 사주기로 했어. OO이 밥을 사주기로 해서 OO이랑 나랑 중국집에 갔어. 그런데 중국집 가면 메뉴를 어떻게 해야 빨리 나와? 빨리 메뉴를 통일해야 빨리 나오지. 주방장 아저씨가 만들 거 아니야 한 번에 만들어야 되니까 너 뭐 먹고 싶어?난 짜장면이 먹고 싶어. 우린 둘이 가면 뭘 시켰을까? 짜장면 시켰겠지 왜? 선생님이 사기로 했으니까 내가 더 힘이 센 거잖아. 선생님이 사기로 한 거니까.. 그치? 아니야. 그러니까 여기서도 보자.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=62]</div>
+          <pre>순종의 동근 완두하고 순종의 주름진 완두가 있을 거야.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>둥근완두가 주름진 완두를 이겼다는 표현은 오개념을 형성할수 있음</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>그러니까 둥근 형질이 주름진 형질보다 우성이라는 거야. 그래서 잡종에서는 둥근 모습이 나타난 거지.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+표현 '둥근 완두가 주름진 완두를 이긴 거지'와 '더 우성이다'는 우성과 열성의 관계를 경쟁이나 강도의 차이로 설명하여 우성이 항상 우월하거나 열성이 사라진다는 오해를 유발할 수 있습니다. 또한 잡종(이형접합)에서 열성 대립유전자가 유전형으로 남아 있다는 점과 표현형(겉모습)과 유전형(유전자 구성)의 구분을 설명하지 않아 개념적으로 불완전합니다.
+
+---
+
+교육적 효과성
+단순한 결론만 제시하고 그 근거나 유전학적 원리(우성의 정의, 유전자 분리·이형접합의 개념 등)를 덧붙이지 않아 학생의 개념 형성이나 심화 학습을 돕지 못합니다. 이로 인해 오개념을 강화할 가능성이 있습니다.
+
+---
+
+상호작용 / 참여
+단정적인 서술('이긴')로 인해 학생의 질문이나 설명, 토론을 유도하지 못하고 수업 참여를 축소시킬 수 있습니다. 논의를 이어가거나 다음 세대 결과를 예측하도록 하는 장치가 부족합니다.
+
+---
+
+어조 / 적절성
+구어체적이고 경쟁을 암시하는 어조('이긴', '더 우성이다')는 과학적 맥락에서 부정확하게 느껴질 수 있으며 오해를 낳을 위험이 있습니다. 전문적이고 정확한 설명과의 괴리가 존재합니다.
+
+---
+
+종합
+우성·열성 개념을 경쟁적·양적 관점으로 단순화해 오해를 유발하고 유전형·표현형 및 메커니즘 설명이 부족하여 교육적으로 보완이 필요합니다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>그러니까 이번 세대에서는 둥근 모양이 나타났고, 둥근을 결정하는 유전자가 우성으로 발현된 거야. 주름진을 결정하는 열성 대립유전자는 잡종(이형접합)에서는 겉모습에 숨겨져 있지만 유전형으로는 남아 다음 세대에 다시 나타날 수 있어.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr1">
+      <div class="meta">
+        <span class="badge"><b>생물</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=68.0</span>
+        <span class="badge mono">2404B01-생물-합의본.csv</span>
+        <span class="badge">(4)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=66]</div>
+          <pre>그런데 잡종 1대에서는 동시 표현 안 된다고 했어.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=67]</div>
+          <pre>대립 형질들이니까 잡종 1대에서는 둥근 것만 표현이 됐지 둥근 것만 표현이 돼버렸지 그치 누가 더 강력한 거야?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=68]</div>
+          <pre>둥근 게 더 강력한 거지. 이렇게 잡종 1대에서 표현되는 형질, 잡종 1대에서 표현되는 형질을 우성이라고 불러.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=69]</div>
+          <pre>잡종 일대에서 표현되지 않는 형질을 열성이라고 불러.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=70]</div>
+          <pre>잡종 일대에 표현되는 형질이 우성. 잡종일 때 표현되지 않는 형질이 열성. 좋다 나쁘다의 개념은 없어. </pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>강력한것이 우성이라는 오개념이 형성될수 있음</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>둥근 게 우성인 거야. 잡종 1대에서 표현되는 형질을 '우성'이라고 불러.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+‘둥근 게 더 강력한 거지’라는 표현은 우성을 ‘강함’이나 우월성으로 오해하도록 만들 수 있다. 우성의 정의(잡종 1대에서 표현되는 형질)만 제시하고 유전형·표현형의 구분이나 불완전우성·공우성 같은 예외를 언급하지 않아 개념적으로 불충분하다.
+
+---
+
+교육적 효과성
+간단명료한 진술이긴 하나 설명이 지나치게 단순하고 같은 문구를 반복해 심화 학습으로 이어지기 어렵다. 학생 이해 수준을 확인하거나 추가 설명을 넣지 않아 학습 효과가 제한적이다.
+
+---
+
+상호작용 / 참여
+발화가 선언적이고 일방적이어서 학생 질문 유도나 참여를 촉진하지 못한다. 반복된 표현은 집중을 떨어뜨릴 수 있어 상호작용을 이끌어내기 어렵다.
+
+---
+
+어조 / 적절성
+구어체 표현(예: ‘강력한’)이 친근하게 들릴 수 있으나 과학적 엄밀성을 떨어뜨리고 개념을 의인화하는 인상을 줄 수 있다. 정확하고 중립적인 어조가 요구되는 맥락에서 부적절할 수 있다.
+
+---
+
+종합
+우성 개념을 간단히 소개하려는 시도는 있으나 용어 선택과 설명의 깊이 부족, 상호작용 유도 부재로 인해 학생 오해를 유발하고 교육적 효과가 제한된다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>둥근 형질이 잡종 1대에서 나타났으니, 잡종 1대에서 나타나는 형질을 '우성'이라 부르고 나타나지 않는 형질을 '열성'이라고 해 — '우성'은 더 강하다는 뜻이 아니라 표현형(관찰되는 모습)을 말하는 거야, 알겠지?</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr1">
+      <div class="meta">
+        <span class="badge"><b>지구과학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=185.0</span>
+        <span class="badge mono">2401E01-지구과학-합의본.csv</span>
+        <span class="badge">(5)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=183]</div>
+          <pre>그럼 예를 들어서 별 x의 시차가 여기부터 여기까지의 시차가 0.1초였대.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=184]</div>
+          <pre>별 x까지의 거리는 얼마일까요? 다시 별 x1에서 x2까지 별 x1의 시차가 0.1초래. 여기부터 여기까지는 별x의 시차 맞지?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=185]</div>
+          <pre>그러면 이 시차가 0.1초라는 건 연주 시차는 몇 초라는 소리야? 반이니까 0.01초가 되겠죠.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=186]</div>
+          <pre>그러면 우리는 거리는 연주 시차 분의 1이지 0.01 분의 1은 몇이에요?
+100pc이 되겠지. 이렇게 구하셔야 돼요. </pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=187]</div>
+          <pre>그럼 이 개념 똑같이 이용해서 옆에 있는 문제 한번 풀어봐.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>설명 오류 - 시차 0.1의 절반에 해당하는 연주시차는 0.05라고 설명해야 옳은 설명임.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>그러면 이 시차가 0.1초라는 건 연주시차는 몇 초라는 소리야? 반이니까 0.05초가 되겠죠.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+시차 계산에서 명백한 수치 오류가 있음. '반이니까 0.01초'라고 제시한 부분은 잘못된 계산으로 이후 거리(파섹) 계산까지 틀리게 만들며, 왜 전체 변위의 절반을 취하는지에 대한 개념적 설명도 부족해 학생 오해를 유발할 수 있음.
+
+---
+
+교육적 효과성
+교사가 틀린 수치를 권위 있게 제시함으로써 학습 방향이 왜곡될 위험이 큼. 계산 과정과 근거를 보여주지 않아 학생들이 스스로 검증하거나 개념을 내재화할 기회를 제공하지 못함.
+
+---
+
+상호작용 / 참여
+질문을 제시한 뒤 즉시 정답을 말해 학생이 스스로 생각하거나 답할 시간을 주지 않음. 추가 유도 질문이나 확인 절차가 없어 참여와 사고 촉진이 약함.
+
+---
+
+어조 / 적절성
+말투는 비교적 친근하지만 틀린 정보를 확신 있게 제시하는 방식은 교사 신뢰도에 악영향을 줄 수 있음. 용어(예: '연주 시차') 사용이 애매해 학생 혼동을 부를 가능성도 있음.
+
+---
+
+종합
+수치적 오류와 설명·참여 유도의 부족 때문에 학생들이 오개념을 갖게 될 위험이 높음. 정확한 계산 근거 제시와 학생 검증 기회 제공이 필요함.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>그러면 이 0.1초는 관측한 전체 변위라는 뜻이고, 우리가 정의해서 쓰는 시차 p는 그 절반인 0.05초야 — 왜 절반인지 잠깐 생각해보고 이걸로 거리가 1/0.05=20pc인지 계산해볼래?</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr1">
+      <div class="meta">
+        <span class="badge"><b>지구과학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=36.0</span>
+        <span class="badge mono">2410E01-지구과학-합의본.csv</span>
+        <span class="badge">(6)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=34]</div>
+          <pre>바람의 혼합 작용에 의해서 더 두꺼워진다. (참석자 4)</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=35]</div>
+          <pre>그치 얘들아 그리고 봐봐 설명해보자라고 되어 있지.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=36]</div>
+          <pre>설명해보자는 뭐야 설명을 하라는 거잖아. 단답형으로 말하는 게 아니라 일단 너 답도 틀렸어.
+뭘 억울한 척해</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=37]</div>
+          <pre>그치 얕아진다라는 내용은 혼합층의 두께가 줄어든다는 거잖아.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=38]</div>
+          <pre>바람이 세게 불어 바람이 세게 불면 혼합 작용이 어떻게 돼?</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>다소 과격한 표현을 활용함.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>설명해보라는 건 단답으로 끝내라는 말이 아니야, 왜 그렇게 생각했는지 차근차근 설명해봐.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+학생의 답을 ‘틀렸다’고 단정하면서도 어떤 부분이 왜 틀렸는지 근거나 설명을 제시하지 않아 개념적 오류를 바로잡을 기회를 제공하지 않습니다. 문맥상 이전 발화(예: 바람의 혼합 작용에 따른 두꺼워짐)를 무턱대고 부정하면 학생이 올바른 점까지 오해하게 할 위험이 있습니다.
+
+---
+
+교육적 효과성
+피드백이 단순한 정답 판정과 비판에 그쳐 학습을 촉진할 수 있는 설명·유도·피드백이 전혀 없습니다. 이로 인해 학생이 자신의 사고를 점검하거나 수정할 기회를 잃어 학습 효과가 저하됩니다.
+
+---
+
+상호작용 / 참여
+‘뭘 억울한 척해’와 같은 표현은 학생의 참여 의욕을 떨어뜨리고 발언을 위축시켜 후속 토론과 참여를 감소시킬 가능성이 큽니다. 대화 흐름을 끊고 학생과의 신뢰·안전한 토론 분위기를 해칠 우려가 있습니다.
+
+---
+
+어조 / 적절성
+어조가 비난적이고 경멸적이며 교사로서의 존중과 전문성이 부족하게 느껴집니다. 학생의 감정과 자존감에 부정적 영향을 줄 수 있는 비공식적·모욕적 표현이 포함되어 있습니다.
+
+---
+
+종합
+구체적 근거 없는 정답 단정과 모욕적인 표현은 개념 이해를 돕지 못하고 학습 분위기를 저해합니다. 설명적·교정적 피드백과 존중하는 태도가 결여되어 있는 것이 큰 문제입니다</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>설명해보자는 건 네 생각을 이유까지 말해보라는 거야. 단답형 말고 왜 그렇게 생각했는지 설명해봐, '두꺼워진다'는 부분은 바람의 혼합 작용 때문에 그런지 같이 확인하자.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr1">
+      <div class="meta">
+        <span class="badge"><b>화학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=52.0</span>
+        <span class="badge mono">2402C01-화학-합의본.csv</span>
+        <span class="badge">(7)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=50]</div>
+          <pre>아까 얘기했던 잠깐 얘기 나왔던 금. 금중에서도 어떤 금? 순금이라고 부르는 거 순수하게 금으로만 돼 있다는 뜻이고 또 뭐 있을까?</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=51]</div>
+          <pre>구리? 어디 들어 있는 구리? 전선 안에 들어 있는 구리. 원소 하나로 되어 있는 금속 구리도 순물질이고, 선생님이마시는 거 뭐지?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=52]</div>
+          <pre>물. 물 여기에 아무것도 타지 않은 순수한 생수거든요.
+그럼 얘도 순수한 물만 있으니까 얘도 뭐일 거다? 순물질이다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=53]</div>
+          <pre>그래서 우리 주변에 있는 물질을 순물질과 혼합물로 나누기도 전에 이 이미 잘 알고 있지만 좀 체계적으로 한번 정리해 보도록 하겠습니다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=54]</div>
+          <pre>아주 잘했어요. 이미 사전 지식이 풍부해서 잘 할 수 있을 것 같아.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>생수의 경우 무기질이 섞여 있기 떄문에 순물질 예시로 옳지 않음. 물을 순물질로 설명하려면 증류수를 예로 들어야함.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>물. 여기에 아무것도 섞이지 않은 순수한 물(H2O)이에요. 한 종류의 성분으로만 이루어져 있으면 무엇이라고 부를까요? 순물질이라고 부릅니다.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+‘순수한 생수’라고 단정하여 곧바로 순물질로 규정한 것은 부정확합니다. 실제 생수에는 용해된 무기염류나 용존물질 등이 있어 대부분 혼합물(용액)에 해당하므로 학생들에게 오개념을 유발할 수 있습니다.
+
+---
+
+교육적 효과성
+순도의 정의나 검증 기준을 제시하지 않고 개념적 근거를 설명하지 않아 중요한 교수·학습 기회를 놓쳤습니다. 혼합물과 순물질을 구별하는 근거를 학생들이 탐구하게 하지 못해 교육적 효과가 떨어집니다.
+
+---
+
+상호작용 / 참여
+‘얘도 뭐일 거다?’처럼 닫힌 질문으로 바로 정답을 도출하여 학생의 근거 제시나 토의를 유도하지 못했습니다. 이로 인해 학생 참여와 비판적 사고 촉진이 부족합니다.
+
+---
+
+어조 / 적절성
+어조가 단정적이고 확신에 차 있어 학생들의 의문 제기나 반론을 수용하기 어렵게 보입니다. 전문적 기준 없이 ‘순수’라는 표현을 사용해 혼란을 초래할 수 있습니다.
+
+---
+
+종합
+내용적 부정확성과 탐구·비판적 사고 유도 부족으로 교육적 한계가 뚜렷하며, 학생들에게 오개념을 형성할 위험이 큽니다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>물. 우리가 마시는 생수는 겉으로 맑아 보여도 용해된 미네랄이나 이온이 들어 있어 혼합물일 가능성이 큽니다. '순물질'은 한 종류의 물질만 있는 것을 말하는데, 이 생수를 바로 순물질이라고 할 수 있을까? 그렇게 생각하는 이유랑 어떻게 확인할 수 있을지 말해볼래?</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr1">
+      <div class="meta">
+        <span class="badge"><b>화학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=190.0</span>
+        <span class="badge mono">2412C01-화학-합의본.csv</span>
+        <span class="badge">(8)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=188]</div>
+          <pre>근데 스프 넣으면 100도 이상으로 올라가니까 면이 충분히 삼키는 겁니다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=189]</div>
+          <pre>이해되시죠? 얘는 어는 점입니다.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=190]</div>
+          <pre>반대입니다. 너희 물분자예요. 샘 이제 반대로 너희한테서 열을 뺏어올 거야.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=191]</div>
+          <pre>그러면은 온도가 어떻게 돼? 쭉쭉 떨어지겠지 맞나?</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=192]</div>
+          <pre>그럼 너희가 어떻게 할까? 싫겠지만 추워지면 어떻게 하고 싶은데 모이고 싶겠지 그렇게 하기 싫겠지만 모입니다.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>학생이 물 분자라는 상황을 가정하여 과학 개념을 설명함. 교사는 소금을 가정하고 있으므로 열을 빼앗는 대상이 아님.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>반대로 해볼게. 너희는 물분자야, 샘이 이제 너희로부터 열(에너지)을 빼앗아 갈 거야.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+발화는 학생을 ‘물분자’로 의인화하고 ‘샘이 너희한테서 열을 뺏어올 거야’라고 표현하여 열을 물질처럼 소유하고 뺏기는 것으로 묘사하고 있다. 이로 인해 열(에너지)의 전송과 온도 변화의 기제가 왜 일어나는지에 대한 과학적 정확성이 훼손되어 학생 오개념을 유발할 위험이 크다.
+
+---
+
+교육적 효과성
+역할극 요소는 흥미를 끌 수 있으나 개념적 메커니즘(열의 흐름, 에너지 보존 등)을 명확히 설명하거나 학생의 이해를 점검하는 추가 설명이 없어 학습 목표 달성에 도움이 되지 않는다. 또한 어떤 진술에 대해 ‘반대’인지 맥락을 분명히 하지 않아 수업의 논리 전개가 불분명하다.
+
+---
+
+상호작용 / 참여
+직접적인 참여를 유도하려는 의도는 보이지만 발화가 지시적·단방향적이라 학생들의 사고를 활성화하거나 예측을 유도하는 질의가 부족하다. 일부 학생은 ‘빼앗아올 거야’ 같은 표현을 오해하거나 불편하게 느낄 수 있어 참여의 질을 떨어뜨릴 수 있다.
+
+---
+
+어조 / 적절성
+어조가 다소 단정적이고 반박으로 시작해 공격적으로 들릴 여지가 있으며 ‘너희’ 같은 표현과 ‘빼앗다’는 은유적 어휘는 과학적 중립성을 해친다. 이러한 말투는 신뢰성 있는 개념 전달에 적절하지 않을 수 있다.
+
+---
+
+종합
+은유적·의인화적 표현이 학생 흥미를 끌 수는 있으나, 열을 물질처럼 묘사하고 맥락을 명확히 하지 않아 심각한 개념적 오해를 낳을 위험이 크며 교육적 효과가 낮다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>반대입니다. 여러분을 물분자로 생각해 보세요, 주변이 더 차가우면 열(에너지)이 여러분에게서 주변으로 이동해서 온도가 내려가요.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr2">
+      <div class="meta">
+        <span class="badge"><b>물리</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=103.0</span>
+        <span class="badge mono">2403P01-물리-합의본.csv</span>
+        <span class="badge">(1)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=101]</div>
+          <pre>(학생) 모르겠어요.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=102]</div>
+          <pre>아니 뭐가 하드야 야 야 야 얘 움직여요 안 움직여요 안 움직여요 안 움직이면 운동 에너지가 없다니까 왜 운동 에너지는 움직이는 애들을 만 가지는 에너지니까 </pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=103]</div>
+          <pre>베리 하드 하지 말고 네가 이해할 생각이 없잖아.지금 위치 에너지는 최대가 되겠죠 왜 가장 높으니까 그럼 아래로 내려왔을 때는 1번 2번 1번이 위치 에너지고요.2번이 운동 에너지예요. 과연 뭐가 0일까요?그래 위치 에너지가 0이에요.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=104]</div>
+          <pre>운동 에너지는 최대 그러면은 창민 만회할 기회가 있어 만회할 기회 선생님 이거 식으로 나타내볼게요.위치 에너지 여기서 100이라고 치고요. 운동 에너지는 0이라고 합시다.창민 역학적 에너지 얼마 까요? 1번 위치에서요.역학적 에너지</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=105]</div>
+          <pre>(학생) 이 맞췄어요? 맞췄어.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>각 위치별 에너지의 크기에 대해 자문자답을 통해 설명합니다. 학생의 어려움에 대해 원인을 파악하거나 공감하지 않고 똑같은 설명을 반복하기 보다는 다양한 방법을 통해 설명하는 것이 좋습니다.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>천천히 생각해보자, 괜찮아. 지금 맨 위에서는 위치에너지가 최대야, 높이가 가장 크니까. 아래로 내려왔을 때 1번 지점에서는 위치에너지도 있고 운동에너지도 생기고, 2번(맨 아래) 지점에서는 위치에너지가 가장 작고 운동에너지가 가장 커. 만약 바닥을 위치에너지 0으로 잡으면 2번에서 위치에너지가 0인 거야.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+문제점: '운동에너지가 생기고'라는 표현이 에너지가 새로 생성되는 것으로 오해될 수 있고, 위치에너지↔운동에너지 변화가 기계적 에너지 보존(예: 마찰 없음)이라는 전제 하에서만 성립함을 명시하지 않아 오해를 유발할 수 있다. 또한 '바닥을 위치에너지 0으로 잡으면 2번에서 위치에너지가 0'이라는 설명이 기준선이 임의적이라는 점을 충분히 강조하지 않아 위치에너지의 상대성(절대값이 아님)을 오해할 소지가 있다.
+
+---
+
+교육적 효과성
+설명이 단정적·서술적이라 학생의 추론 과정을 유도하거나 원리적 연결(예: 왜 높이가 내려가면 속도가 증가하는지에 대한 원인 설명)을 제시하지 않아 이해 심화를 돕기 어렵다. 전제 조건(마찰·에너지 손실 여부 등)을 분명히 하지 않아 이후 계산·적용 단계에서 혼동을 초래할 수 있다.
+
+---
+
+상호작용 / 참여
+학생의 이전 발언(모르겠어요, 움직이면 운동에너지 등)에 대해 확인 질문이나 재진술 요청이 없어 오개념을 직접적으로 점검하고 교정할 기회를 놓치고 있다. '맨 위·1번·2번' 같은 지점 표시에 대해 학생들이 동일하게 이해하고 있는지 확인하지 않아 추적이 어려울 수 있다.
+
+---
+
+어조 / 적절성
+초반 진정시키는 표현은 있으나 이후 발화가 단정적으로 흐르며 학생의 설명이나 반론을 끌어내는 대화적 어조로 전환되지 않아 학생 참여를 저해할 가능성이 있다. 단정적 표현이 학생의 추가 질문을 막을 우려가 있다.
+
+---
+
+종합
+전반적으로 내용 자체에 큰 오류는 없지만 전제(에너지 보존 등) 표기의 누락, '생긴다'식 표현으로 인한 오해 가능성, 그리고 학생 사고를 더 이끌어낼 질문 부족이라는 한계가 있어 보완이 필요하다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>천천히 생각해보자, 괜찮아. 맨 위(높이가 가장 큰 지점)에서는 위치에너지가 가장 크고, 내려오면서 그 위치에너지가 운동에너지로 전환되어 속도가 빨라져 — 여기서는 마찰 등 에너지 손실이 없어서 역학적 에너지가 보존된다고 가정할게. 1번 지점에는 위치에너지와 운동에너지가 둘 다 있고, 2번(맨 아래)에서는 위치에너지가 가장 작고 운동에너지가 가장 커. 위치에너지는 기준을 어떻게 잡느냐에 따라 값이 달라지니 우리가 바닥을 0으로 잡으면 2번에서 위치에너지가 0인 거야. 1번·2번을 이렇게 이해하고 있어?</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr2">
+      <div class="meta">
+        <span class="badge"><b>물리</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=96.0</span>
+        <span class="badge mono">2405P03-물리-합의본.csv</span>
+        <span class="badge">(2)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=94]</div>
+          <pre>그러면 볼록 렌즈랑 오목렌즈랑, 아니 오목거울이랑 상의 특징이 똑같네.
+볼록 거울은 어떻게 가까운 거 어떻게 보여? 작게 보여요. 볼록 거울 가까운 거 어떻게 보여? 작게 보이죠 먼 거 어떻게 보여? 작게 보이죠 오목거울이랑 볼록거울이랑 반대네.
+상의 특징이. 오목 렌즈 가까이 있는 거 어떻게 보여요?
+작게 멀리 있는 것도 작게</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=95]</div>
+          <pre>그러면 돋보기 알지? 돋보기 돋보기는 무슨 렌즈야?
+그렇지 돋보기가 볼록 렌즈인 건 알지? 돋보기는 볼록 렌즈야.
+근데 우리 돋보기로 그거 검은 색깔 종이 태운 거 해본 적 있어?
+해본 적 있지? 그럼 빛을 어떻게 해주는 거야? 맞아요.
+돋보이는 빛을 보여주고, 돋보기는 크게 보이는 거잖아.
+돋보기는 크게 보이는 거잖아. 멀리 하면 거꾸로 보이잖아.
+이거를 알고 있으니까, 요거에서 볼록 거울 그럼 볼록 렌즈랑 반대였어 오목 거울 볼록 렌즈랑 똑같았어.
+난 이렇게 외웠어.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=96]</div>
+          <pre>이거는 지금 너네 보라고 이거 써준 거고, 이거를 머릿속에 넣으면 그냥 저절로 외워지던데 나는 이렇게 외웠어.
+너네가 더 좋은 방법으로 외울 수도 있겠지. </pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=97]</div>
+          <pre>근데 오목 렌즈랑 볼록 볼록 거울이랑 똑같고 볼록 거울이랑 오목거울이랑 반대고 오목거울이랑 볼록 렌즈랑 똑같으니까 이 관계를 외워서 나는 하나만 외웠어.
+하나만 외우면 나머지 4개가 다 외워지는 거잖아.
+이해됐어? 그러니까 하나만 외우라는 거야. 돋보기가 이런 특징을 가진 거 알잖아 그럼 하나도 외울 필요가 없지 과학은 앞글자 따서 외우는 것보다 이런 식으로 연관지어서 관련 지어서 얘네들의 특성을 외우는 게 더 좋은 것 같아.
+난 무작정 외우라고 하고 싶지 않아.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=98]</div>
+          <pre>이해되니? 혹시 이해 안 되면 쌤한테 따로 찾아와 다시 물어봐.
+나 같으면 이거 적어 두겠다. 적어 놨지? 공부 잘하는 사람이면 다 적었을 거여.
+나 같으면 외우기 힘드니까 이거 적어놨다.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>오목거울, 볼록거울, 오목렌즈, 볼록 렌즈 등 각 상황에 따른 상을 암기해야 함을 강조합니다.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>이건 너네 보라고 정리해 둔 그림이고, 머릿속에 한 번 그림으로 넣어두면 더 잘 외워져. 나는 돋보기(볼록 렌즈) 하나만 기준으로 외워두고, 오목거울은 볼록렌즈와 같고 볼록거울·오목렌즈는 반대라는 관계로 나머지를 바로 알았어. 너희도 더 좋은 방법 있으면 그렇게 해봐.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+발화는 '오목거울=볼록렌즈, 볼록거울=오목렌즈(반대)'라는 단순 대응만 제시하는데, 초점에서의 상 형성, 물체 위치(초점, 중심, 무한대) 등 중요한 예외와 물리적 근거를 언급하지 않아 오해를 유발할 수 있습니다. '같다'와 '반대'가 어떤 속성(실상/허상, 상의 방향·크기 등)을 가리키는지 명확하지 않아 학생들이 모든 경우에 동일한 규칙을 적용할 위험이 있습니다.
+
+---
+
+교육적 효과성
+하나만 기준으로 외우라는 제안은 표면적 암기를 촉진할 수 있으나 그 근거가 되는 광선 경로 설명이나 시범, 점검 질문이 없어 개념적 이해를 돕기에는 부족합니다. 예외 상황이나 구체적 연습 과제가 제시되지 않아 학습의 정확성과 깊이를 확보하기 어렵습니다.
+
+---
+
+상호작용 / 참여
+발화는 개인적 방법을 제시하는 데 그치고 학생의 이해를 확인하거나 설명을 유도하는 질문이나 활동이 포함되어 있지 않아 즉각적인 상호작용을 이끌지 못합니다. '더 좋은 방법 있으면 그렇게 해봐'처럼 수동적 제안에 머물러 학생 참여와 피드백 기회를 충분히 만들지 못합니다.
+
+---
+
+어조 / 적절성
+구어체와 친근한 표현이 사용되었으나 '너네', '나'와 같은 표현과 '하나만 외우라'는 권유는 일부 학생에게 일방적·암기 중심의 지시로 받아들여질 수 있습니다. 주관적 방식 제시에 대한 추가 안내나 주의점이 없어 불확실성을 줄여주지 못합니다.
+
+---
+
+종합
+개념적 근거와 예외 설명이 부족하고 상호작용 유도도 약해 학생에게 오해를 낳거나 심화된 이해를 방해할 가능성이 있습니다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>이건 여러분 보라고 정리한 그림인데, 저는 돋보기(볼록렌즈)를 기준으로 외워서 오목거울은 볼록렌즈처럼 수렴계(초점 밖에선 실상·거꾸로, 초점 안에선 허상·정립), 반대로 볼록거울·오목렌즈는 발산계(보통 허상·정립·축소)라는 성질을 연관지어 외우되 물체 위치에 따른 예외는 광선 그려 확인해보고 이해 안 되면 와서 물어보세요.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr2">
+      <div class="meta">
+        <span class="badge"><b>생물</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=60.0</span>
+        <span class="badge mono">2404B01-생물-합의본.csv</span>
+        <span class="badge">(3)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=58]</div>
+          <pre>이걸 순종의 둥근완두라고 부릅니다. 순종의 둥근완두라고 불러요.
+이번에는 마찬가지로 주름진 완두가 이렇게 있었어.
+이 주름진 완두를 심어요. 마찬가지로 완두니까 숯꽃과 암꽃이 나오겠죠.
+꽃의 꽃가루를 암꽃에다가 묻혀줘요. 수정을 시켜주는 거지.
+그런 다음에 얘가 또 자손을 얻어. 주름진 완두가 나왔겠지.
+수대에 걸쳐서 이 작업을 반복했는데도 계속 주름진 완두가 나와.
+그럼 얘는 뭐야? 얘는 순종의 주름진 완두가 있는 거야.
+순종 순종의 둥근 완두와 순종의 주름진 완두를 이렇게 색을 통해서 만들어냈습니다.
+그게 연구의 첫 번째 단계였어. 순종의 둥근 완두, 순종의 주름진 완두 이게 연구의 첫 번째</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=59]</div>
+          <pre>그다음에 그다음에 봐봐. 아까도 순종의 둥근완두하고 순종의 주름진완두를 이제 교배를 해볼 거야.
+얘가 순종 얘도 순종이지 순종. 그러면 나오는 나오는 녀석은 우리가 순종이라고 부를까 잡종이라고 부를까?
+잡종이라고 부르겠지. 순종과 순종을 교배해서 나온 건 잡종이야.
+그런데 여기서 이 잡종 제1대에서, 잡종 제1대에서 나온 완두콩의 모양이 동그란 둥근 완두였어.
+순종의 둥근 완두와 순종의 주름진 완두를 교배했더니 나온 완두콩이 둥근 완두가 나왔어.
+실험의 결과야.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=60]</div>
+          <pre>그러니까 둥근 완두가 주름진 완두를 이긴 거지. 더 우성이다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=61]</div>
+          <pre>예를 들어 OO이랑 나랑 둘이 손잡고 중국집에 갔어. 내가 밥을 사주기로 했어. OO이 밥을 사주기로 해서 OO이랑 나랑 중국집에 갔어. 그런데 중국집 가면 메뉴를 어떻게 해야 빨리 나와? 빨리 메뉴를 통일해야 빨리 나오지. 주방장 아저씨가 만들 거 아니야 한 번에 만들어야 되니까 너 뭐 먹고 싶어?난 짜장면이 먹고 싶어. 우린 둘이 가면 뭘 시켰을까? 짜장면 시켰겠지 왜? 선생님이 사기로 했으니까 내가 더 힘이 센 거잖아. 선생님이 사기로 한 거니까.. 그치? 아니야. 그러니까 여기서도 보자.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=62]</div>
+          <pre>순종의 동근 완두하고 순종의 주름진 완두가 있을 거야.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>둥근완두가 주름진 완두를 이겼다는 표현은 오개념을 형성할수 있음</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>그러니까 둥근 형질이 주름진 형질보다 우성이라는 거야. 그래서 잡종에서는 둥근 모습이 나타난 거지.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+발화의 핵심 주장(둥근 형질이 주름진 형질보다 우성하다는 점)은 멘델 실험 맥락에서는 맞지만, '우성'의 정확한 의미(대립유전자의 상호작용, 유전자형과 표현형의 관계)에 대한 설명이 없어 학생들이 '우성=항상 더 강하거나 우월하다'는 식으로 오해할 수 있다. 또한 이 진술이 특정 교배(둥근×주름진)에서 나온 결과임을 명확히 하지 않아 일반화의 위험이 있다.
+
+---
+
+교육적 효과성
+결론만 제시하고 그 근거(실험 결과의 수치나 분리비 등)를 연결하지 않아 개념 형성에 필요한 논리적 근거 제공이 부족하다. 우성·열성 개념을 구성하는 핵심 요소(유전자형, 표현형, 분리법칙 등)를 학생이 스스로 확인하거나 탐구할 기회를 주지 않는다.
+
+---
+
+상호작용 / 참여
+질문이나 확인 유도가 전혀 없고 단정적인 서술로 끝나므로 학생의 사고 참여나 토론을 촉발하지 못한다. 학생의 이해 상태를 점검할 장치가 없어 피드백 기반 상호작용이 이루어지기 어렵다.
+
+---
+
+어조 / 적절성
+어조가 단정적이고 결론을 재확인하는 방식이라 일부 학생은 의문을 제기하기 어려울 수 있다. '보다' 같은 비교 표현이 우성의 개념을 가치 판단으로 오해하게 만들 소지도 있다.
+
+---
+
+종합
+내용 자체는 사실에 부합하지만 맥락·근거 제시와 학생 참여 유도가 부족해 교육적 효과가 낮고 오해를 유발할 가능성이 있어 2점에 해당한다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>그러니까 이번 교배에서는 둥근 형질이 주름진 형질에 대해 우성으로 작용해서 잡종(F1)에서는 둥근 표현형이 나온 거야, 우성은 항상 더 낫다거나 더 강하다는 뜻이 아니라 둘이 함께 있을 때 특정 대립유전자가 표현형으로 드러난다는 뜻이지.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr2">
+      <div class="meta">
+        <span class="badge"><b>생물</b></span>
+        <span class="badge">rating=2</span>
+        <span class="badge mono">idx=68.0</span>
+        <span class="badge mono">2404B01-생물-합의본.csv</span>
+        <span class="badge">(4)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=66]</div>
+          <pre>그런데 잡종 1대에서는 동시 표현 안 된다고 했어.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=67]</div>
+          <pre>대립 형질들이니까 잡종 1대에서는 둥근 것만 표현이 됐지 둥근 것만 표현이 돼버렸지 그치 누가 더 강력한 거야?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=68]</div>
+          <pre>둥근 게 더 강력한 거지. 이렇게 잡종 1대에서 표현되는 형질, 잡종 1대에서 표현되는 형질을 우성이라고 불러.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=69]</div>
+          <pre>잡종 일대에서 표현되지 않는 형질을 열성이라고 불러.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=70]</div>
+          <pre>잡종 일대에 표현되는 형질이 우성. 잡종일 때 표현되지 않는 형질이 열성. 좋다 나쁘다의 개념은 없어. </pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>강력한것이 우성이라는 오개념이 형성될수 있음</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>둥근 게 우성인 거야. 잡종 1대에서 표현되는 형질을 '우성'이라고 불러.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+기본 개념을 전달하긴 하나 '둥근 게 우성'이라는 표현이 우성이 형질 자체의 속성인 것처럼 오해를 낳을 수 있다. 우성은 이형접합자에서 나타나는 표현형과 관련된 개념이며 유전자·대립유전자·유전자형·표현형의 구분이나 불완전우성·공우성 같은 예외를 언급하지 않아 과도하게 단순화되어 있다.
+
+---
+
+교육적 효과성
+간결하지만 이유나 근거(왜 둥글게 표현되는지, 어떤 유전자형에서 그런지가 생물학적으로 설명되지 않아 표층적 이해로 끝날 위험이 있다. 또한 특정 교배 결과에만 해당한다는 맥락이 명확하지 않다.
+
+---
+
+상호작용 / 참여
+단정적인 서술로 끝나 학생의 추론이나 질문을 유도하지 못한다. 학생 반응을 확인하거나 설명을 이끌어내는 질문이나 활동이 없어 참여를 활성화할 기회를 놓친다.
+
+---
+
+어조 / 적절성
+구어체·단정적 어조가 강해 권위적으로 들릴 수 있으며 학생들이 의문을 제기하거나 토론하기 어렵게 만들 가능성이 있다. 친근함으로 받아들여질 수도 있으나 개념 전달 상황에서는 다소 일방적으로 느껴질 수 있다.
+
+---
+
+종합
+개념의 핵심을 전달하긴 했지만 설명이 지나치게 단순·단정적이라 오해와 표층적 학습을 유발할 수 있다. 유전자와 표현형의 관계, 예외 사례 명시 및 학생 참여 유도 같은 보완이 필요하다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>이번 교배에서는 둥근 대립유전자가 이형접합(잡종 1대)에서 나타나니까 둥근 형질을 '우성'이라고 불러. 왜 그런지 생각해볼래?</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr2">
+      <div class="meta">
+        <span class="badge"><b>지구과학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=185.0</span>
+        <span class="badge mono">2401E01-지구과학-합의본.csv</span>
+        <span class="badge">(5)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=183]</div>
+          <pre>그럼 예를 들어서 별 x의 시차가 여기부터 여기까지의 시차가 0.1초였대.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=184]</div>
+          <pre>별 x까지의 거리는 얼마일까요? 다시 별 x1에서 x2까지 별 x1의 시차가 0.1초래. 여기부터 여기까지는 별x의 시차 맞지?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=185]</div>
+          <pre>그러면 이 시차가 0.1초라는 건 연주 시차는 몇 초라는 소리야? 반이니까 0.01초가 되겠죠.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=186]</div>
+          <pre>그러면 우리는 거리는 연주 시차 분의 1이지 0.01 분의 1은 몇이에요?
+100pc이 되겠지. 이렇게 구하셔야 돼요. </pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=187]</div>
+          <pre>그럼 이 개념 똑같이 이용해서 옆에 있는 문제 한번 풀어봐.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>설명 오류 - 시차 0.1의 절반에 해당하는 연주시차는 0.05라고 설명해야 옳은 설명임.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>그러면 이 시차가 0.1초라는 건 연주시차는 몇 초라는 소리야? 반이니까 0.05초가 되겠죠.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+발화는 '총 관측 시차의 절반이 연주시차'라는 결론을 제시하지만, 여기서 말하는 '시차'가 관측한 전체 변위(두 시점 간 차이)인지 이미 정의된 연주시차인지 명확히 하지 않아 학생들이 혼동할 수 있습니다. 또한 '0.1초'라는 표기에서 각도의 단위(각초, arcsec)인지 시간 단위인지 구분하지 않아 정확성에 대한 오해를 유발할 여지가 있습니다.
+
+---
+
+교육적 효과성
+질문을 던진 뒤 교사가 곧바로 답을 제시해 학생이 스스로 사고하거나 근거를 설명할 기회를 제공하지 못합니다. '반이니까'라는 결론에 대한 기하학적·정의적 근거를 제시하지 않아 개념의 심화 이해를 돕지 못합니다.
+
+---
+
+상호작용 / 참여
+질문 형태이지만 즉시 정답을 말해 학생들의 응답이나 토론 기회를 차단하고, 이해 확인용 질문이나 피드백 요청이 없어 상호작용을 촉진하지 못합니다. 학생 참여를 유도할 여지가 거의 없습니다.
+
+---
+
+어조 / 적절성
+'몇 초라는 소리야?' '되겠죠' 등의 구어적 표현은 친근해 보일 수 있으나 다소 단정적·추정적으로 들려 학생들이 이의를 제기하거나 질문하기 어렵게 만들 수 있습니다. 전문 용어와 단위를 명확히 하지 않은 점도 수업 어조에서의 문제입니다.
+
+---
+
+종합
+간단명료하게 결론을 제시하였으나 정의·단위의 불명확성, 근거 설명의 부재, 학생 참여 유도 부족 등으로 오해를 낳고 학습 효과를 떨어뜨릴 위험이 큽니다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>여기서 0.1은 두 관측 시점 사이의 전체 각이동(단위: 각초)이야. 그러면 연주시차, 즉 그 '반'은 몇 각초인지 계산하고 왜 반이 되는지 간단히 설명해봐.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr2">
+      <div class="meta">
+        <span class="badge"><b>지구과학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=36.0</span>
+        <span class="badge mono">2410E01-지구과학-합의본.csv</span>
+        <span class="badge">(6)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=34]</div>
+          <pre>바람의 혼합 작용에 의해서 더 두꺼워진다. (참석자 4)</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=35]</div>
+          <pre>그치 얘들아 그리고 봐봐 설명해보자라고 되어 있지.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=36]</div>
+          <pre>설명해보자는 뭐야 설명을 하라는 거잖아. 단답형으로 말하는 게 아니라 일단 너 답도 틀렸어.
+뭘 억울한 척해</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=37]</div>
+          <pre>그치 얕아진다라는 내용은 혼합층의 두께가 줄어든다는 거잖아.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=38]</div>
+          <pre>바람이 세게 불어 바람이 세게 불면 혼합 작용이 어떻게 돼?</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>다소 과격한 표현을 활용함.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>설명해보라는 건 단답으로 끝내라는 말이 아니야, 왜 그렇게 생각했는지 차근차근 설명해봐.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+발화 자체에 사실적·개념적 오류는 없으나, ‘차근차근 설명해봐’라는 지시가 학생에게 어떤 근거(증거·원리·메커니즘)를 제시해야 하는지 구체적으로 안내하지 않아 설명이 원인·결과나 물리적 메커니즘과 연결되지 않은 단편적 진술로 끝날 가능성이 있다.
+
+---
+
+교육적 효과성
+학생에게 더 자세히 설명하라고 요구하는 점은 좋지만, 설명의 구조(예: 주장–증거–해석)나 구체적 기준·단계적 힌트가 없어 심화된 사고와 체계적 설명 능력 형성을 충분히 돕지 못한다.
+
+---
+
+상호작용 / 참여
+표현이 다소 단호하고 대기시간이나 발언 순서 등 참여 방식을 안내하지 않아, 특히 조용한 학생들의 발언 유도나 활발한 상호작용을 촉진하는 데 한계가 있다.
+
+---
+
+어조 / 적절성
+‘단답으로 끝내라는 말이 아니야’라는 표현은 꾸짖는 어조로 받아들여질 수 있어 학생의 자신감이나 교실 분위기를 위축시킬 위험이 있다.
+
+---
+
+종합
+더 깊은 설명을 요구하는 의도는 분명하지만, 구체적 근거 제시 요구와 참여 유도·지지적 어조가 부족해 교육적 효과가 제한적이다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>단답 말고 주장–증거–해석 순으로 왜 그렇게 생각했는지 차근차근 말해볼래?</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr2">
+      <div class="meta">
+        <span class="badge"><b>화학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=52.0</span>
+        <span class="badge mono">2402C01-화학-합의본.csv</span>
+        <span class="badge">(7)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=50]</div>
+          <pre>아까 얘기했던 잠깐 얘기 나왔던 금. 금중에서도 어떤 금? 순금이라고 부르는 거 순수하게 금으로만 돼 있다는 뜻이고 또 뭐 있을까?</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=51]</div>
+          <pre>구리? 어디 들어 있는 구리? 전선 안에 들어 있는 구리. 원소 하나로 되어 있는 금속 구리도 순물질이고, 선생님이마시는 거 뭐지?</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=52]</div>
+          <pre>물. 물 여기에 아무것도 타지 않은 순수한 생수거든요.
+그럼 얘도 순수한 물만 있으니까 얘도 뭐일 거다? 순물질이다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=53]</div>
+          <pre>그래서 우리 주변에 있는 물질을 순물질과 혼합물로 나누기도 전에 이 이미 잘 알고 있지만 좀 체계적으로 한번 정리해 보도록 하겠습니다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=54]</div>
+          <pre>아주 잘했어요. 이미 사전 지식이 풍부해서 잘 할 수 있을 것 같아.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>생수의 경우 무기질이 섞여 있기 떄문에 순물질 예시로 옳지 않음. 물을 순물질로 설명하려면 증류수를 예로 들어야함.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>물. 여기에 아무것도 섞이지 않은 순수한 물(H2O)이에요. 한 종류의 성분으로만 이루어져 있으면 무엇이라고 부를까요? 순물질이라고 부릅니다.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+‘순수한 물(H2O)’이라고 단정하고 곧바로 ‘한 종류의 성분으로만 이루어져 있으면 순물질’이라고 한 표현이 모호합니다. H2O는 수소와 산소로 이루어진 화합물인데도 '한 종류의 성분'이라는 말이 원소와 화합물을 구분하지 못하게 하여 학생들이 '순물질 = 하나의 원소'로 오해하거나, 일상적으로 마시는 물을 곧바로 순수한 H2O로 잘못 인식하게 할 수 있습니다.
+
+---
+
+교육적 효과성
+질문을 던진 뒤 바로 정답을 제시해 학생들이 스스로 생각하거나 토론할 시간을 확보하지 못했습니다. 또한 일상적 사례(수돗물·음용수 등)와의 차이를 짚어 주지 않아 개념을 현실에 연결하는 학습 기회를 놓쳤습니다.
+
+---
+
+상호작용 / 참여
+즉시 정답을 안내함으로써 학생 발언 기회를 제한했고, 추가 확인 질문이나 유도 질문이 없어 학생 참여와 사고 확장을 촉진하지 못합니다.
+
+---
+
+어조 / 적절성
+어조가 단정적이며 절대적인 표현('아무것도 섞이지 않은')을 사용해 현실적 예외를 고려하지 않아 오해를 낳을 수 있습니다. 학생들에게 탐구적 태도를 유도하기에는 표현이 다소 일방적입니다.
+
+---
+
+종합
+종합하면 표현의 모호성과 단정적 진술 때문에 학생 오개념을 유발할 위험이 크고, 즉시 정답 제시로 참여와 사고유도 기회를 감소시켜 교육적 효과가 떨어집니다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>물(H2O)은 수소와 산소가 결합한 화합물이에요. 다른 물질이 섞여 있지 않은 상태라면 원소든 화합물이든 '순물질'이라고 부르지만, 우리가 마시는 수돗물은 보통 여러 물질이 섞인 혼합물일 때가 많습니다. 여러분은 물을 순물질로 볼까요, 혼합물로 볼까요?</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <div class="card" data-tab="sr2">
+      <div class="meta">
+        <span class="badge"><b>화학</b></span>
+        <span class="badge">rating=1</span>
+        <span class="badge mono">idx=190.0</span>
+        <span class="badge mono">2412C01-화학-합의본.csv</span>
+        <span class="badge">(8)</span>
+      </div>
+
+      <div class="grid">
+        <div class="section">
+          <div class="hlabel">원 발화 (문맥 포함, TARGET 강조)</div>
+          
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-2 [idx=188]</div>
+          <pre>근데 스프 넣으면 100도 이상으로 올라가니까 면이 충분히 삼키는 겁니다.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이전-1 [idx=189]</div>
+          <pre>이해되시죠? 얘는 어는 점입니다.</pre>
+        </div>
+        
+        <div class="ctxrow tgt">
+          <div class="ctxmeta">TARGET [idx=190]</div>
+          <pre>반대입니다. 너희 물분자예요. 샘 이제 반대로 너희한테서 열을 뺏어올 거야.</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+1 [idx=191]</div>
+          <pre>그러면은 온도가 어떻게 돼? 쭉쭉 떨어지겠지 맞나?</pre>
+        </div>
+        
+        <div class="ctxrow">
+          <div class="ctxmeta">이후+2 [idx=192]</div>
+          <pre>그럼 너희가 어떻게 할까? 싫겠지만 추워지면 어떻게 하고 싶은데 모이고 싶겠지 그렇게 하기 싫겠지만 모입니다.</pre>
+        </div>
+        
+        </div>
+
+        <div style='display:grid; gap:12px;'>
+      <div class="section box-human">
+        <div class="hlabel">human feedback (output)</div>
+        <pre>학생이 물 분자라는 상황을 가정하여 과학 개념을 설명함. 교사는 소금을 가정하고 있으므로 열을 빼앗는 대상이 아님.</pre>
+      </div>
+    
+      <div class="section box-base">
+        <div class="hlabel">Baseline (improved_utt)</div>
+        <pre>반대로 해볼게. 너희는 물분자야, 샘이 이제 너희로부터 열(에너지)을 빼앗아 갈 거야.</pre>
+      </div>
+    
+          <div class="section box-srfb">
+            <div class="hlabel">Self-Refine feedback</div>
+            <pre>정확성 / 개념
+발화는 '샘이 너희로부터 열(에너지)을 빼앗아 갈 거야'라고 말해 열을 교사가 능동적으로 '빼앗는' 것으로 의인화합니다. 이 표현은 열전달이 온도 차에 따른 에너지 흐름이라는 물리적 과정임을 모호하게 만들어 학생들이 열을 물질처럼 이해하는 오개념을 유발할 수 있습니다. 또한 에너지가 어디로 가는지(주변으로 흘러간다)나 분자의 구체적 변화(운동 에너지 감소, 상전이 과정)를 설명하지 않아 개념적 혼란을 남깁니다.
+
+---
+
+교육적 효과성
+학습 목표(냉각·열전달 원리)와 연결되는 구체적 설명이나 질문이 부족해 학생의 사고 발달을 충분히 지원하지 못합니다. 은유적 표현에만 의존해 핵심 기작을 설명하지 않으므로 오히려 오해를 강화할 위험이 있습니다.
+
+---
+
+상호작용 / 참여
+학생을 '물분자'로 설정한 참여 유도는 있으나 발화 자체에 학생 행동 지침이나 예측 요청이 없어 참여가 실제 사고로 이어지기 어렵습니다. 교사를 에너지의 주체로 설정한 방식은 토론이나 학생 탐구를 촉진하기보다 수동적 수업 진행을 초래할 수 있습니다.
+
+---
+
+어조 / 적절성
+어조는 친근하나 '빼앗아 간다' 같은 표현은 과학적 정확성이 떨어지고 다소 극적·부정적으로 들릴 수 있습니다. 비유를 쓸 때도 전문 용어 보완 없이 지나치게 의인화하면 전달력이 약해집니다.
+
+---
+
+종합
+전반적으로 의도는 이해되나 에너지를 의인화하고 과정 설명을 생략하여 학생 오개념을 유발하고 학습 효과를 저해할 가능성이 큽니다.</pre>
+          </div>
+        
+          <div class="section box-srout">
+            <div class="hlabel">Self-Refine refined utterance</div>
+            <pre>반대로 해볼게. 너희는 물분자야, 주변이 더 차가워서 너희의 운동에너지(열)이 주변으로 이동해 분자 운동이 느려질 거야.</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+</main>
+
+<script>
+function showTab(name){
+  document.querySelectorAll('[data-tab]').forEach(el=>{
+    el.style.display = (el.getAttribute('data-tab')===name) ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tabbtn').forEach(btn=>{
+    btn.classList.toggle('active', btn.getAttribute('data-name')===name);
+  });
+  // scroll top for clarity
+  window.scrollTo({top:0, behavior:'instant'});
+}
+document.addEventListener('DOMContentLoaded', ()=>{
+  showTab('baseline');
+});
+</script>
+</body>
+</html>
