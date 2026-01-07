@@ -112,7 +112,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       <div class="subtitle">LLM refinement using gpt-5-mini</div>
     </div>
     <div class="tabs">
-      <button class="tabbtn" data-name="baseline" onclick="showTab('baseline')">Baseline</button>
+      <button class="tabbtn" data-name="base" onclick="showTab('base')">base</button>
       <button class="tabbtn" data-name="sr1" onclick="showTab('sr1')">Self-Refine #1</button>
       <button class="tabbtn" data-name="sr2" onclick="showTab('sr2')">Self-Refine #2</button>
     </div>
@@ -121,7 +121,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
 
 <main>
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -168,12 +168,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>176쪽 펴 봐. 자, 우리가 지금 배우고 있는 주제가 뭐였지?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>책을 펴라고 구체적으로 지시하고 '주제'를 묻는 명확한 질문으로 학생의 기억을 환기해 참여와 이해를 촉진하도록 개선했다.</pre>
           </div>
         </div>
@@ -181,7 +181,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=1</span>
@@ -229,12 +229,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>시차는 두 번 관측한 위치 차이의 '절반'이라는 거 기억하자. 여기서는 전체 이동이 0.02초였으니까 연주시차는 그 절반인 0.01초가 됩니다.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>시차의 정의(총 이동량의 절반)를 명확히 하고 잘못된 숫자를 바로잡아 학생들이 연주시차를 올바르게 계산하도록 유도함.</pre>
           </div>
         </div>
@@ -242,7 +242,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -289,12 +289,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>오늘은 우리 몸에서 오줌을 만드는 데 관여하는 기관들이 무엇인지 먼저 살펴보고, 그중 가장 중요한 콩팥이 어디에 있고 어떤 모양이며 내부의 기본 구조(겉질·속질 등)는 어떻게 되어 있는지까지 이해하는 것을 목표로 할게요.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>학습 목표를 더 명확히 제시하고 콩팥의 위치·모양·기본 내부 구조라는 구체적 범위를 알려줘 학생의 이해와 참여를 촉진하도록 개선함.</pre>
           </div>
         </div>
@@ -302,7 +302,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -355,12 +355,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그래서 정리하면, 순물질은 한 가지 성분으로 되어 있고 그 물질만의 고유한 성질을 나타낼 때 순물질이라고 하고, 두 가지 이상의 순물질이 섞여서 순물질의 고유한 성질에 변화가 생기면 그걸 혼합물이라고 해요.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>중복 오류('물 물질')를 바로잡고 순물질과 혼합물의 정의를 더 명확하고 간결하게 정리하여 학생 이해를 돕도록 개선했습니다.</pre>
           </div>
         </div>
@@ -368,7 +368,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -424,12 +424,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>근데 문제는 시간이 지나거나 온도가 바뀌면 마요네즈의 유화 작용이 깨져서 기름층과 물·단백질층이 분리될 수 있어. 경험해 본 사람 있어? 이렇게 분리되면 더 이상 균일한 상태가 아니고 불균일한 상태가 되는 거야. 온도 때문에 일시적으로 분리된 것이라면 잘 저어주면 다시 섞이기도 하지만, 유통기한이 지나거나 계란 성분이 상해서 생긴 분리면 다시 섞어도 안전하지 않으니 버리는 게 좋아. 그래서 보관을 잘해야 하고, 마요네즈는 여러 성분이 섞인 혼합물이지만 유화된 상태라 쉽게 불균일해질 수 있는 혼합물이라고 보면 돼.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>질문으로 학생 참여를 유도하고 유화 분리의 원인과 결과를 명확히 설명하며 재혼합 가능성과 식품 안전성(유통기한 경과 시 폐기 권장)을 구분해 교육적으로 개선했다.</pre>
           </div>
         </div>
@@ -437,7 +437,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -485,12 +485,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>이온 음료는 성분들이 물에 이온이나 분자 상태로 녹아 물 전체에 고르게 섞이고, 탄산음료도 이산화탄소가 물에 녹아 전체적으로 한 가지 상태를 이루어요. 그래서 둘 다 균일 혼합물로 보시면 됩니다.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>부정확한 '플러스 마이너스 전기' 설명을 없애고 이온·분자 수준에서 왜 둘이 균일 혼합물인지 간단명료하게 설명해 학생 이해를 돕도록 개선했습니다.</pre>
           </div>
         </div>
@@ -498,7 +498,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -558,12 +558,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그러니까 잡종 제1대에서 둥근 모양이 나온 건 둥근 형질이 우성이라는 뜻이야. 우성은 잡종에서 드러나는 형질이고 주름진 건 열성이라서 가려진 거야.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>‘이긴’이라는 비유를 정확한 유전학 용어로 바꾸고 우성·열성의 의미를 간결하게 설명해 학생의 오해를 줄이고 이해를 돕도록 개선함.</pre>
           </div>
         </div>
@@ -571,7 +571,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -623,12 +623,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>예를 들어 너희 둘이 중국집에 가서 한 가지만 빨리 시키기로 했다면 결국 한 사람의 선택이 곧 메뉴가 되지? 유전자도 비슷해서, 둥근 유전자가 있으면 주름진 유전자가 함께 있어도 겉으로는 둥근 모양만 보여. 그래서 둥근을 '우성'이라고 하고 주름진 걸 '열성'이라고 부르는 거야. 유전형은 둘 다 있을 수 있지만 표현형은 우성이 드러난다는 뜻이야. 이해됐지?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>비유를 명확하고 간단하게 바꾸고 '우성/열성'과 '유전형/표현형'의 차이를 정확히 설명해 학생의 이해와 참여를 촉진하도록 개선함.</pre>
           </div>
         </div>
@@ -636,7 +636,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -683,12 +683,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>대립 형질이라 잡종 1대에서는 둥근 모양만 나타났지. 그러면 어느 형질이 더 강하다고 볼 수 있을까?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>중복된 표현을 정리하고 학생이 스스로 어느 형질이 우세한지 생각하도록 유도하는 명확한 질문으로 교육적 효과를 높였다.</pre>
           </div>
         </div>
@@ -696,7 +696,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -743,12 +743,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>둥근 게 우성이야. 잡종 1대에서 표현되는 형질을 우성이라고 하고, 표현되지 않는 쪽을 열성이라고 불러.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>우성과 열성의 의미를 간단하고 명확하게 정의해 학생들의 이해를 돕고 수업 흐름에 맞게 연결되도록 개선했다.</pre>
           </div>
         </div>
@@ -756,7 +756,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -836,12 +836,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>을사늑약 때 우리 주권을 빼앗겼잖아. 그래서 빼앗긴 주권을 되찾으려고 독립운동을 한 거야. 독립이라는 건 남의 간섭을 받지 않고 스스로 결정하고 행동할 수 있는 상태, 즉 주권을 가진 상태라는 뜻이야. 이해됐어? 예를 들어 우리나라에서 큰 범죄를 저지른 사람이 외국으로 도망가면 우리가 마음대로 데려올 수 없어. 그 나라도 주권이 있으니까 보통은 범죄인 인도 같은 절차를 통해 해결해야 하는 거야.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>중복된 표현을 정리하고 '독립'의 개념을 명확히 정의한 뒤, 질문과 현실적 사례를 넣어 학생의 이해와 참여를 유도하도록 개선했다.</pre>
           </div>
         </div>
@@ -849,7 +849,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -933,12 +933,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>미국에서 재판을 받으면 보석 허가가 잘 안 나고 선고가 훨씬 무거워서 사실상 오래 수감될 가능성이 커. 비슷한 사안으로 미국에서 아주 긴 형을 받은 사례도 있어서 석방이 쉽지 않거든. 반면 한국과는 형벌 체계가 달라서 한국에서 재판받으면 형이 상대적으로 가벼울 수 있고 빨리 나올 가능성이 있어, 그래서 그 사람이 한국으로 오려고 하는 거야. 지금은 마지막 결정 단계만 남아 있는 상태야. 너희들은 어떻게 생각해? 좀 안타깝지?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>과장된 단정과 부정확한 수치를 제거하고(예: '100% 못 나와'), 국가별 법체계 차이를 중학생 수준의 쉬운 말로 정확히 설명하며 학생 의견을 묻는 질문을 추가해 이해와 참여를 촉진했습니다.</pre>
           </div>
         </div>
@@ -946,7 +946,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=2</span>
@@ -1008,12 +1008,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>얘들아, 오목거울·볼록거울·오목렌즈·볼록렌즈 이 네 가지, 그냥 달달 외우면 헷갈리지? 그래서 나는 '비슷한 상의 특징끼리 짝지어 외우는 방법'을 썼어 — 예를 들어 ‘뒤집히는지, 크기가 어떻게 변하는지’로 묶는 거야. 시간 조금 있으니까 샘이 어떻게 외웠는지 바로 알려줄게.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>단순 암기 대신 상의 특징(뒤집힘·크기)을 기준으로 묶어 외우는 구체적 방법을 제시해 이해와 기억을 돕고 수업 참여로 자연스럽게 이어지게 했다.</pre>
           </div>
         </div>
@@ -1021,7 +1021,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=2</span>
@@ -1069,12 +1069,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>반비례 관계는 보통 '별까지의 거리는 연주시차에 반비례한다'라고 표현해요, 즉 거리는 연주시차의 역수(1/연주시차)에 비례해요.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>어색하고 잘못된 표현을 바로잡아 '연주시차'와 '역수(1/연주시차)' 개념을 명확히 제시해 학생들이 다음 식 전개를 자연스럽게 이해하도록 연결했습니다.</pre>
           </div>
         </div>
@@ -1082,7 +1082,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=2</span>
@@ -1130,12 +1130,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>반비례 관계를 우리가 주로 어떻게 나타내냐면, 별까지의 거리는 연주시차의 역수(즉 1/연주시차)에 비례한다고 표현해요.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>‘연주시차’라는 정확한 용어와 ‘역수(1/연주시차)’ 개념을 명확히 제시해 반비례의 의미를 학생들이 바로 이해하도록 개선함.</pre>
           </div>
         </div>
@@ -1143,7 +1143,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=2</span>
@@ -1191,12 +1191,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>반비례 관계는 보통 이렇게 표현해요: '별까지의 거리는 연주시차에 반비례한다.' 다시 말하면, 거리는 연주시차의 역수(1/연주시차)에 비례해요.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>용어를 정확히(연주시차) 고치고 '반비례'와 '역수(1/연주시차)에 비례'라는 동등한 표현을 써서 학생들이 개념을 명확히 이해하고 다음에 수식으로 옮기기 쉽도록 개선했습니다.</pre>
           </div>
         </div>
@@ -1204,7 +1204,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=2</span>
@@ -1251,12 +1251,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>거리가 멀수록 시차는 작아지지?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>의미 없는 발화를 학생의 사고를 유도하는 간단한 질문으로 바꾸어 시차와 거리의 관계를 생각하게 하고 이후의 '반비례' 설명으로 자연스럽게 연결되도록 했다.</pre>
           </div>
         </div>
@@ -1264,7 +1264,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=2</span>
@@ -1311,12 +1311,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>왜냐하면 우리가 아까 본 것처럼 고체·액체·기체는 각각 입자들의 운동 정도가 달라서 그래.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>각 상태별로 입자 운동이 다르다는 점을 명확히 밝혀 상태 변화와 열에너지 흡수·방출의 연결을 이해하도록 도와 교육적 효과를 높였음.</pre>
           </div>
         </div>
@@ -1324,7 +1324,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=2</span>
@@ -1380,12 +1380,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>서진이가 헷갈릴 수 있겠네. 다시 정리할게. 물질이 열에너지를 방출하면 주변의 온도가 올라가고, 반대로 물질이 열에너지를 흡수하면 주변은 낮아져서 차가워져. 이 점 꼭 기억해, 알겠지?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>더 정확한 물리 용어(열에너지 방출·흡수)로 핵심을 간결히 정리하고 확인 질문을 넣어 학생 이해와 참여를 높였다.</pre>
           </div>
         </div>
@@ -1393,7 +1393,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=1</span>
@@ -1441,12 +1441,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>‘설명해 보자’는 결과만 말하는 게 아니라 왜 그런지까지 말해 보라는 뜻이야. 단답형으로 끝내지 말고 네 생각과 근거를 차근차근 설명해봐. 어떤 근거로 그렇게 말한 건지 말해줄래?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>학생의 설명을 유도하고 단답형을 피하게 하며 부정적 표현을 제거해 이해와 참여를 촉진하도록 발화를 개선했다.</pre>
           </div>
         </div>
@@ -1454,7 +1454,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=1</span>
@@ -1515,12 +1515,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>자, 빨리 풀자. 계산할 때 소수 첫째 자리에서 반올림한다는 거 꼭 기억해 — 첫째 자리 숫자가 5 이상이면 올리고 아니면 버려서 자연수만 남기면 돼. 궁금한 사람 있으면 손 들어.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>반올림 규칙을 명확하게 설명하고 질문을 유도해 학생의 이해를 돕고 참여를 촉진하도록 개선함.</pre>
           </div>
         </div>
@@ -1528,7 +1528,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=2</span>
@@ -1581,12 +1581,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>물이 들어가면 문제가 생기니까, 이제 염전과 바닷물에 녹아있는 염류를 알아볼게요.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>물에 의한 손상 사례에서 자연스럽게 염전과 염류 학습으로 연결해 학습 목표를 분명히 하고 학생의 이해와 참여를 촉진하도록 표현을 개선했습니다.</pre>
           </div>
         </div>
@@ -1594,7 +1594,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=2</span>
@@ -1642,12 +1642,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>같이 한번 볼게. 적색을 띠는 별은 표면 온도가 비교적 낮고, 파란색을 띠는 별은 표면 온도가 높은 편이야. 그래서 색으로 대강 온도를 짐작할 수 있어.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>원래 문장의 '어두운 별' 표현은 밝기와 온도를 혼동시킬 수 있어 이를 '표면 온도가 낮다/높다'로 바꿔 색과 온도의 관계를 정확하고 명확하게 설명해 학생의 이해를 돕도록 개선했다.</pre>
           </div>
         </div>
@@ -1655,7 +1655,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -1702,12 +1702,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>동해 앞바다에서나 서해 앞바다에서나 바닷물 성분이 비슷할까?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>맛보기를 권하지 않고 '성분'이라는 과학적 표현으로 질문해 바닷물의 균일성 개념을 생각하게 하고 학생 참여를 유도하도록 개선했다.</pre>
           </div>
         </div>
@@ -1715,7 +1715,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -1762,12 +1762,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>완전히 똑같진 않아. 염도는 지역마다 다를 수 있는데도 바닷물 속 주요 성분의 비율은 거의 일정해서 전반적인 성질은 비슷하다고 보면 돼.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>절대적 단정(똑같을 거야)을 바로잡고 염도와 성분 비율의 차이를 중학생 수준의 쉬운 말로 간결히 설명해 학생 이해와 사고를 돕도록 개선함.</pre>
           </div>
         </div>
@@ -1775,7 +1775,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -1822,12 +1822,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>내가 너희 사이에 소금이라고 생각해봐. 소금(이온)이 물분자들을 주변에서 잡아당겨서 물이 쉽게 증발, 그러니까 도망가지 못하게 해. 그럼에도 도망가려면 어떻게 해야 할까? 맞아, 더 세게 가열해야 해. 물만 있을 때는 잡아당길 사람이 없으니까 훨씬 쉽게 도망가겠지.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>학생의 사고를 유도하는 질문을 넣고, 소금이 물분자를 잡아당겨 증발이 어려워진다는 정확한 이유를 간단한 어휘로 설명해 이해와 참여를 촉진하도록 개선했다.</pre>
           </div>
         </div>
@@ -1835,7 +1835,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -1882,12 +1882,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그러니까 순수한 물은 100도에서 물 분자가 기체가 되어 도망가는데, 소금을 타면 소금 이온이 물 분자를 끌어당겨 더 세게 붙잡아서 100도보다 더 높은 온도까지 가열해야 도망갈 수 있어.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>순수한 물과 용액의 차이를 소금 이온이 물 분자를 끌어당겨 끓는점이 올라간다는 정확한 원인·결과로 간결하게 설명해 학생의 이해와 사고를 촉진하도록 개선함.</pre>
           </div>
         </div>
@@ -1895,7 +1895,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -1942,12 +1942,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>없다. 없다. 그러니까 어떻게 해야 하겠어? 가열을 더 해서 온도를 높여야 한다.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>중학생 수준의 쉬운 어휘로 소금 때문에 물이 바로 끓지 못하니 가열을 더 해 온도를 올려야 한다고 명확히 설명하고 질문형 표현으로 학생의 사고를 유도해 이해와 참여를 촉진했습니다.</pre>
           </div>
         </div>
@@ -1955,7 +1955,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -2002,12 +2002,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>소금을 넣으면 소금이 물 분자들을 붙잡아 두거든. 그래서 물 분자들이 기체로 빠져나가기(증발하기) 어려워져 증기가 잘 생기지 않고, 같은 압력에서 끓으려면 더 높은 온도, 즉 더 많이 가열해야 해.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>소금이 물 분자를 붙잡아 증발이 어려워진다는 원인과 그 결과로 증기압이 낮아져 끓는점이 올라간다는 점을 중학생 수준의 어휘로 정확하고 간결하게 설명하여 이해를 도왔습니다.</pre>
           </div>
         </div>
@@ -2015,7 +2015,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -2062,12 +2062,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>근데 처음엔 뒤에 있는 애들이 도망가도, 시간이 지나면 소금에 잡혀 있는 물 분자가 더 늘어나서 밖으로 나갈 수 있는 물이 전체적으로 줄어들어. 그래서 같은 온도에서는 증발이 적으니 끓게 하려면 온도를 더 올려야 해.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>학생의 '잡아당김·도망' 비유를 살리면서 소금이 물분자를 붙잡아 밖으로 나갈 수 있는 분자가 줄어들고, 그 결과 같은 온도에서는 증발이 줄어들어 더 높은 온도가 필요하다는 점을 명확히 설명해 이해를 도왔다.</pre>
           </div>
         </div>
@@ -2075,7 +2075,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -2122,12 +2122,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>근데 소금을 넣으면 소금 이온이 주변의 물 분자들을 끌어당겨서 물 분자들이 서로 더 단단히 붙어 있게 돼. 그래서 도망가서 증발할 수 있는 자유로운 물 분자 수가 줄어들고, 그만큼 더 많은 열을 줘야 물이 끓으니까 끓는점이 올라가는 거야.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>학생의 비유(도망가는 물 분자)를 이어 받아 소금이 물 분자를 끌어당겨 증발을 어렵게 하고 그 결과 끓는점이 올라간다는 원인을 중학생 수준의 어휘로 간결하고 정확하게 설명해 이해와 참여를 촉진하도록 개선했다.</pre>
           </div>
         </div>
@@ -2135,7 +2135,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -2182,12 +2182,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>끓는 동안엔 온도가 거의 끓는점에 머물러. 그런데 계속 증발해서 물이 줄면 소금 농도가 높아져서 끓는점이 조금 올라갈 수 있는 거야.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>끓는 동안 온도가 일정하다는 점과 증발로 인한 소금 농도 증가가 끓는점 상승을 일으킨다는 올바른 과학적 설명으로 학생의 오해를 바로잡고 이해를 도왔다.</pre>
           </div>
         </div>
@@ -2195,7 +2195,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -2242,12 +2242,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>반대로야. 너희는 물분자예요. 내가 너희한테서 열을 빼가면 움직임이 줄어서 온도가 떨어져.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>분자 입장 역할놀이를 유지하되 '열을 뺏어온다'는 표현을 '움직임 감소→온도 하강'으로 정확하게 바꿔 학생 이해와 다음 질문으로의 자연스러운 연결을 도왔습니다.</pre>
           </div>
         </div>
@@ -2255,7 +2255,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>화학</b></span>
         <span class="badge">rating=1</span>
@@ -2293,12 +2293,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그다음에 기체가 액체로, 액체가 고체로 변할 때는 입자들이 점점 더 가까워져요. 그러면 열을 어떻게 해야 할까요? 열을 빼줘야 하죠. 이 과정을 냉각이라고 합니다.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>문장을 간결하고 정확하게 정리해 입자 간 거리가 줄어든다는 점과 열을 제거해야 한다는 것을 명확히 제시하고, '냉각' 용어를 자연스럽게 도입해 학생 이해와 참여를 높였습니다.</pre>
           </div>
         </div>
@@ -2306,7 +2306,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -2369,12 +2369,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>우리가 생물을 분류할 때, 큰 틀(계 수준)에서 보면 어떤 기준을 쓰냐면 먼저 세포에 뚜렷한 '핵'이 있느냐 없느냐를 봐. '핵'이 뭔지 알지? 세포 안에 유전물질이 들어 있고 세포 기능을 조절하는 중요한 부분이야. 또 세포벽이 있느냐 없느냐도 보고—세포벽은 어디에만 있지?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>무례한 표현을 제거하고 핵과 세포벽의 간단한 정의를 제시하며 질문을 넣어 학생의 이해와 참여를 유도하도록 개선했다.</pre>
           </div>
         </div>
@@ -2382,7 +2382,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -2444,12 +2444,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>세포 하나만 보고 단정하긴 어려워. 겉으로는 단세포처럼 보여도 어떤 원생생물은 필요할 때 여러 세포가 모여 다세포 형태를 만들기도 해서 한 형태로만 끝나지 않아. 그리고 포자는 살아 있는 생식 세포(또는 세포 덩어리)로, 활동이 거의 멈춘 휴면 상태일 수는 있지만 조건이 맞으면 발아해서 자라니까 ‘포자는 살아있지 않다’고 하긴 어려워.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>포자에 대한 잘못된 표현을 바로잡고 단세포가 다세포로 전환되는 경우와 포자의 휴면·발아 특성을 명확히 설명하여 학생 오해를 줄이고 이해를 돕도록 개선함.</pre>
           </div>
         </div>
@@ -2457,7 +2457,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=1</span>
@@ -2496,12 +2496,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>기생충은 다른 생물에 기생해서 그 생물에게서 영양을 얻으며 사는 생물이야. 꼭 곤충만 있는 게 아니라 회충 같은 벌레(동물)도 있고, 눈에 보이지 않는 단세포 원생생물이나 균류·기생식물도 있어.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>기존 발화의 오개념(기생충=곤충)을 바로잡고 기생충의 정의와 다양한 종류를 간단한 예로 제시해 학생 이해를 돕도록 개선함.</pre>
           </div>
         </div>
@@ -2509,7 +2509,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -2561,12 +2561,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그래서 속력이 점점 빨라지는 운동을 뭐라고 부르지? 가속운동이야. 반대로 속력이 일정한 운동은 뭐라고 부르지? 등속운동이라고 해.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>질문-응답 방식으로 가속운동과 등속운동의 개념을 명확히 제시해 학생의 이해와 참여를 유도하도록 개선했습니다.</pre>
           </div>
         </div>
@@ -2574,7 +2574,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -2623,12 +2623,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그러면 단위는 뭐야? m/s^2가 맞아, 속도가 1초마다 얼마나 변하는지를 나타내기 때문이야.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>잘못된 단위를 바로잡고 간단한 이유(속도의 시간당 변화)를 제시해 학생 이해를 돕고 사고를 유도함.</pre>
           </div>
         </div>
@@ -2636,7 +2636,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -2689,12 +2689,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>자, 예를 하나 들어볼게. 민석이가 5층에서 떨어졌을 때와 20층에서 떨어졌을 때, 땅에 닿을 때의 속도를 비교해보자. 어느 쪽이 더 빠를까? 왜 그렇게 생각하는지 말해봐.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>부적절한 서술을 제거하고 비교 질문으로 바꿔 학생의 사고를 유도해 낙하 운동에서 속도의 차이를 탐구하도록 개선했습니다.</pre>
           </div>
         </div>
@@ -2702,7 +2702,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -2754,12 +2754,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그럼 만약 민석이가 20층에서 떨어진다면, 땅에 닿을 때 속도는 5층에서 떨어졌을 때보다 어떻게 달라질까? 그 속도 차이가 몸에 가해지는 충격에는 어떤 영향을 줄까?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>학생들이 중력가속도와 속도·충격의 관계를 사고하도록 유도하고 '죽음' 같은 민감한 표현을 피해 교육적 효과와 안전성을 높였다.</pre>
           </div>
         </div>
@@ -2767,7 +2767,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=2</span>
@@ -2814,12 +2814,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>이거 우리 전에 여러 번 다뤘지? 기억나는 사람?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>부정적 표현을 긍정적이고 참여를 유도하는 질문으로 바꿔 학생의 기억을 환기하고 발언을 이끌어내도록 개선했다.</pre>
           </div>
         </div>
@@ -2827,7 +2827,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=1</span>
@@ -2874,12 +2874,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>금성은 대기에 이산화탄소가 많고 그 위를 두꺼운 황산 구름이 덮여 있어서, 지구에서 보면 밝은 노란빛이나 흰빛으로 보여요.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>금성 색의 원인을 정확하게 바로잡아(황산 구름에 의한 빛 반사) 오해를 줄이고 학생 이해를 촉진하도록 표현을 개선했습니다.</pre>
           </div>
         </div>
@@ -2887,7 +2887,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -2936,12 +2936,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>엽록체는 사람으로 비유하면 우리 몸의 어떤 기관과 비슷할까요? 예를 들어 혈액을 온몸으로 보내는 기관이 뭐예요? (힌트: 펌프처럼 일을 해요)</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>엽록체를 사람의 기관에 비유해 구체적 질문과 '펌프' 힌트를 주어 학생의 사고를 유도하고 혼동을 줄이도록 개선함.</pre>
           </div>
         </div>
@@ -2949,7 +2949,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -2999,12 +2999,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>시합하거나 차를 오래 타서 화장실을 못 가면 배가 아플 때가 있지? 장 같은 내장기관에도 늘어나거나 자극을 감지하는 감각세포가 있어서 그 신호가 뇌로 가면 통증이나 불편함을 느끼게 돼. 그래서 시험 볼 때 갑자기 배가 아파서 집중을 못 하는 경우가 생기는 거야.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>문장을 문법적으로 바로잡고 중학생 수준의 용어로 내장기관의 감각세포가 늘어남·자극을 감지해 통증 신호를 보낸다는 과학적 설명을 명확히 해 학생 이해와 참여를 도울 수 있도록 개선함.</pre>
           </div>
         </div>
@@ -3012,7 +3012,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>생물</b></span>
         <span class="badge">rating=2</span>
@@ -3062,12 +3062,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그건 내가 당장 네 배 아픔을 해결해 줄 수는 없어서 바로 도와주긴 어렵고, 지금 말하려는 요지는 따로야. 얘들아, 너희가 크려면 음식을 먹잖아.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>비속어를 제거하고 학생의 불편을 공감하면서 수업의 핵심(우리가 성장하려면 음식을 먹음)을 자연스럽게 연결해 학습에 집중하도록 개선했다.</pre>
           </div>
         </div>
@@ -3075,7 +3075,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=1</span>
@@ -3122,12 +3122,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>목성이에요. 태양계에서 제일 큰 행성이라 위성이 아주 많아요.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>개인적 감상표현을 빼고 '별'을 '행성'으로 바꿔 정확성을 높였으며, 목성의 크기와 위성 다수를 간결히 제시해 학생 이해와 다음의 위성 명칭 언급으로 자연스럽게 연결되도록 했습니다.</pre>
           </div>
         </div>
@@ -3135,7 +3135,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=1</span>
@@ -3182,12 +3182,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>달은 행성이 아니라 지구의 위성이에요. 다른 위성들에 비해 크기가 꽤 커서 특이하죠.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>달을 '행성'으로 잘못 표현한 점을 바로잡고, 달이 지구의 위성이며 다른 위성에 비해 상대적으로 크다는 간단한 설명으로 학생 이해를 도왔습니다.</pre>
           </div>
         </div>
@@ -3195,7 +3195,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>지구과학</b></span>
         <span class="badge">rating=1</span>
@@ -3242,12 +3242,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그 다음은 해왕성인데, 대기에 메탄이 많아서 겉이 파랗게 보이는 행성이에요. 방금 얘기한 메탄과 어떻게 연결되는지 한 번 생각해볼래?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>개인적 표현을 제거하고 앞서 언급된 메탄과 해왕성의 파란색을 연결해 간단한 설명과 질문을 통해 학생 이해와 참여를 촉진하도록 개선했다.</pre>
           </div>
         </div>
@@ -3255,7 +3255,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -3308,12 +3308,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그래, 들어봐. 내가 대학에서 배운 걸 쉽게 설명해 줄게, 이해 안 되면 바로 질문해.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>비하적 표현을 제거하고 학생의 참여를 유도하며 설명 예고와 질문 권장을 포함해 이해를 돕도록 개선함.</pre>
           </div>
         </div>
@@ -3321,7 +3321,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -3370,12 +3370,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그러면 이렇게 한번 생각해보자. 뜨거운 물체는 열을 어디로 보내려고 할까?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>질문형으로 학생들의 사고를 유도하고 '열'의 이동 방향을 명확히 해 중학생 수준에서 이해와 참여를 촉진하도록 표현을 개선했다.</pre>
           </div>
         </div>
@@ -3383,7 +3383,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -3431,12 +3431,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그런 거 말고, 뜨거운 건 차가운 쪽으로 열을 전달하려는 성질이 있어.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>학생의 오개념(뜨거운 것이 단순히 위로 간다)을 바로잡고, '열은 높은 온도에서 낮은 온도로 이동한다'는 핵심 개념을 중학생 수준의 쉬운 말로 간결하게 제시해 이해와 토론을 촉진하도록 개선했다.</pre>
           </div>
         </div>
@@ -3444,7 +3444,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -3495,12 +3495,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그럼 모든 물질은 결국 어디로 가려고 할까? 더 에너지가 낮고 편한 상태, 즉 '안정된 상태'로 가려고 한다고 볼 수 있을까?</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>학생들이 '안정된 상태' 개념을 정확히 이해하도록 에너지 관점과 친숙한 표현을 덧붙여 질문형으로 바꿔 사고와 참여를 유도했다.</pre>
           </div>
         </div>
@@ -3508,7 +3508,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -3568,12 +3568,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그러면 에너지가 많은 상태에서는 어떻게 될까? 에너지는 많은 곳에서 적은 곳으로 흘러가려고 해. 반대로 에너지가 적은 곳은 그 에너지를 받으려 하지. 이렇게 서로 주고받다가 결국 같아지는 상태를 과학에서는 '평형', 온도에 대한 경우는 '열평형'이라고 해.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>에너지가 많은 곳에서 적은 곳으로 이동한다는 점과 그로 인해 결국 같은 상태(평형/열평형)에 도달한다는 개념을 또렷하고 학생 친화적으로 정리해 이해와 참여를 높이도록 개선했다.</pre>
           </div>
         </div>
@@ -3581,7 +3581,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -3643,12 +3643,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>그럼 우리 이렇게 한 번 생각해 보자. 온도가 높은 쪽은 시간이 지나면 어떻게 될까? 열이 높은 곳에서 낮은 곳으로 이동해서 식게 되지. 반대로 차가운 물은 주변 열을 받아서 점점 따뜻해져. 그래서 뜨거운 물과 차가운 물을 그냥 두면 결국 둘의 온도가 같아져. 이런 상태를 우리는 ‘평형 상태’라고 부른다.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>문장을 더 정확하고 자연스럽게 다듬어 열의 이동 방향과 평형의 의미를 명확히 설명하고 질문으로 학생 참여를 유도하도록 개선했다.</pre>
           </div>
         </div>
@@ -3656,7 +3656,7 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
     </div>
     
 
-    <div class="card" data-tab="baseline">
+    <div class="card" data-tab="base">
       <div class="meta">
         <span class="badge"><b>물리</b></span>
         <span class="badge">rating=1</span>
@@ -3714,12 +3714,12 @@ pre{ white-space:pre-wrap; word-break:break-word; margin:0; font-family:inherit;
       </div>
     
           <div class="section box-base">
-            <div class="hlabel">Baseline refined utterance</div>
+            <div class="hlabel">base refined utterance</div>
             <pre>정리해볼게. 볼링공에는 질량이 크니까 중력(무게)이 더 크게 작용하는 건 맞아. 그런데 가속도는 같은 힘을 질량으로 나눈 값이라서(간단히 말하면 a=F/m), 똑같은 힘을 주면 질량이 큰 쪽은 가속이 더 작아 시뮬레이션에서 빨간 공이 더 빨리 가속했던 거야. 반면 진공에서는 중력만 작용할 때 중력의 크기도 질량에 비례하기 때문에 가속도는 같아서 질량과 관계없이 동시에 땅에 닿는다는 걸 지난 시간에 배웠지. 그래서 동시에 도착시키려면 질량에 따라 다른 힘을 줘야 한다는 결론이야.</pre>
           </div>
         
           <div class="section box-modelrat">
-            <div class="hlabel">baseline rationale</div>
+            <div class="hlabel">base rationale</div>
             <pre>중력과 가속도의 관계를 정확히 설명하고 '같은 힘을 준 경우'와 '진공에서의 경우'를 구분해 학생의 오해를 바로잡고 이해를 촉진하도록 개선했다.</pre>
           </div>
         </div>
@@ -12745,7 +12745,7 @@ function showTab(name){
   window.scrollTo({top:0, behavior:'instant'});
 }
 document.addEventListener('DOMContentLoaded', ()=>{
-  showTab('baseline');
+  showTab('base');
 });
 </script>
 </body>
